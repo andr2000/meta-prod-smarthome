@@ -53,12 +53,16 @@ EXTRA_TOOLS_INSTALL = " \
     wget \
     zip \
 "
+VAILLANT_SUPPORT = " \
+    ebusd \
+"
 
 IMAGE_INSTALL += " \
     ${CORE_OS} \
     ${DEV_EXTRAS} \
     ${EXTRA_TOOLS_INSTALL} \
     ${WIFI_SUPPORT} \
+    ${VAILLANT_SUPPORT} \
 "
 
 # Kyiv
