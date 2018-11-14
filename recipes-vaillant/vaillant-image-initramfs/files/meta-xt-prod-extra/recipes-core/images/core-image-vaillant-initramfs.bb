@@ -4,7 +4,6 @@ LICENSE = "MIT"
 inherit deploy
 inherit core-image
 
-DEPENDS += "u-boot-mkimage-native"
 DEPENDS += "bcm2835-bootfiles"
 
 IMAGE_INSTALL = "packagegroup-core-boot ${CORE_IMAGE_EXTRA_INSTALL}"
@@ -75,13 +74,5 @@ ROOTFS_POSTPROCESS_COMMAND += " \
     set_local_timezone ; \
     disable_bootlogd ; \
  "
-
-generate_uboot_image() {
-    ${STAGING_BINDIR_NATIVE}/uboot-mkimage -A arm64 -O linux -T ramdisk -C gzip -n "uInitramfs" \
-        -d ${DEPLOYDIR}-image-complete/${IMAGE_LINK_NAME}.cpio.gz ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio.gz.uInitramfs
-    ln -sfr  ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio.gz.uInitramfs ${DEPLOY_DIR_IMAGE}/uInitramfs
-}
-
-IMAGE_POSTPROCESS_COMMAND += " generate_uboot_image; "
 
 IMAGE_ROOTFS_SIZE = "65535"
