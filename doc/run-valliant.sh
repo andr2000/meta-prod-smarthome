@@ -31,6 +31,8 @@ run_qemu()
         -initrd ${INITRD} \
         -m 256M \
         -nographic \
+	-net user,hostfwd=tcp::5022-:22 \
+	-net nic \
         ;
     }
 
@@ -66,5 +68,6 @@ done
 
 echo "Using initrd file: '$INITRD'"
 echo "Use Ctrl-A X to terminate QEMU"
+echo "Use ssh root@localhost -p 5022 to connect to the target"
 
 run_qemu
