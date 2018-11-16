@@ -5,8 +5,10 @@ SECTION = "extras"
 LICENSE = "GPLv3"
 PR = "r0"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
 DEPENDS = "mosquitto"
-RDEPENDS_ebusd = "bash"
+RDEPENDS_${PN} = "bash logrotate initscripts"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=66e1eeb3afdf47b310a8c763864b70c8"
 
@@ -16,7 +18,10 @@ inherit autotools update-rc.d
 
 SRCREV = "${AUTOREV}"
 
-SRC_URI = "git://github.com/john30/ebusd.git;protocol=https;branch=master"
+SRC_URI = " \
+    git://github.com/john30/ebusd.git;protocol=https;branch=master \
+    file://0001-Use-init.d-functions-for-non-LSB-distributions.patch \
+"
 
 INITSCRIPT_NAME = "ebusd"
 INITSCRIPT_PARAMS = "defaults 99"
@@ -24,4 +29,10 @@ INITSCRIPT_PARAMS = "defaults 99"
 do_install_append() {
     install -d ${D}${sysconfdir}/init.d
     install -m 0744 ${S}/contrib/debian/init.d/ebusd ${D}${sysconfdir}/init.d/
+
+    install -d ${D}${sysconfdir}/default
+    install -m 0744 ${S}/contrib/debian/default/ebusd ${D}${sysconfdir}/default/ebusd
+
+    install -d ${D}${sysconfdir}/logrotate.d
+    install -m 0744 ${S}/contrib/etc/logrotate.d/ebusd ${D}${sysconfdir}/logrotate.d/
 }
