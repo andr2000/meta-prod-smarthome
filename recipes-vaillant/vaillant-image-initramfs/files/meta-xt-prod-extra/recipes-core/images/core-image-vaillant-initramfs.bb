@@ -87,3 +87,9 @@ make_initrd_symlink() {
 
 IMAGE_POSTPROCESS_COMMAND += " make_initrd_symlink; "
 
+create_mnt_points() {
+    mkdir -p ${IMAGE_ROOTFS}/mnt/secret
+    mkdir -p ${IMAGE_ROOTFS}/mnt/data
+}
+
+IMAGE_PREPROCESS_COMMAND += " create_mnt_points; "
