@@ -80,3 +80,10 @@ ROOTFS_POSTPROCESS_COMMAND += " \
  "
 
 IMAGE_ROOTFS_SIZE = "65535"
+
+make_initrd_symlink() {
+    ln -sfr  ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio.gz ${DEPLOY_DIR_IMAGE}/initrd
+}
+
+IMAGE_POSTPROCESS_COMMAND += " make_initrd_symlink; "
+
