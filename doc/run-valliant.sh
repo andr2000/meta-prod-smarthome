@@ -1,11 +1,16 @@
 #!/bin/bash -e
-JESSIE_KERNEL=kernel-qemu-4.4.34-jessie
+URL=https://raw.githubusercontent.com/dhruvvyas90/qemu-rpi-kernel/master/
+KERNEL=kernel-qemu-4.14.50-stretch
+DTB=versatile-pb.dtb
 
 # This is the kernel that runs under QEMU + VersatilePB
-if [ ! -f ${JESSIE_KERNEL} ]; then
-    curl -OL https://github.com/dhruvvyas90/qemu-rpi-kernel/raw/master/kernel-qemu-4.4.34-jessie
+if [ ! -f ${KERNEL} ]; then
+    curl -OL ${URL}/${KERNEL}
 fi
 
+if [ ! -f ${DTB} ]; then
+    curl -OL ${URL}/${DTB}
+fi
 
 usage()
 {
@@ -27,12 +32,14 @@ run_qemu()
         -M versatilepb \
         -append "rw earlyprintk loglevel=8 console=ttyAMA0,115200 dwc_otg.lpm_enable=0 root=/dev/ram" \
         -cpu arm1176 \
-        -kernel ${JESSIE_KERNEL} \
+        -kernel ${KERNEL} \
+        -dtb ${DTB} \
         -initrd ${INITRD} \
         -m 256M \
         -nographic \
-	-net user,hostfwd=tcp::5022-:22 \
-	-net nic \
+        -net user,hostfwd=tcp::5022-:22 \
+        -net nic \
+        -hda /dev/loop0 \
         ;
     }
 
