@@ -1,0 +1,42 @@
+TARGET_NAME=REPLACE_TARGET_NAME
+TARGET_PREFIX="${TARGET_NAME}-"
+
+usage()
+{
+	echo "`basename "$0"` [-p toolchain-path]"
+	echo "	-p toolchain-path	path to ${TARGET_NAME} and sdk folder"
+
+	exit 1
+}
+
+DEFAULT_PATH="REPLACE_DEFAULT_PATH"
+
+while getopts ":p:" opt; do
+	case $opt in
+		p)
+		    DEFAULT_PATH="$OPTARG"
+		;;
+		\?)
+		    usage
+		;;
+	esac
+done
+
+echo "Toolchain path: ${DEFAULT_PATH}"
+
+PATH=${DEFAULT_PATH}/${TARGET_NAME}/bin:$PATH
+export TOOLCHAIN_ROOT="${DEFAULT_PATH}/${TARGET_NAME}"
+export SDK_ROOT="${DEFAULT_PATH}/sdk"
+export SYSROOT="${DEFAULT_PATH}/${TARGET_NAME}/${TARGET_NAME}/sysroot"
+
+export AR="${TARGET_PREFIX}ar"
+export AS="${TARGET_PREFIX}as"
+export CC="${TARGET_PREFIX}gcc --sysroot=${SYSROOT}"
+export CPP="${TARGET_PREFIX}gcc --sysroot=${SYSROOT}"
+export CXX="${TARGET_PREFIX}g++ --sysroot=${SYSROOT}"
+export GDB="${TARGET_PREFIX}gdb"
+export LD="${TARGET_PREFIX}ld --sysroot=${SYSROOT}"
+export OBJCOPY="${TARGET_PREFIX}objcopy"
+export OBJDUMP="${TARGET_PREFIX}objdump"
+export STRIP="${TARGET_PREFIX}strip"
+
