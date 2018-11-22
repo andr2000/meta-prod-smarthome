@@ -55,6 +55,7 @@ EXTRA_TOOLS_INSTALL = " \
 "
 VAILLANT_SUPPORT = " \
     ebusd \
+    ebusd-configuration \
     mosquitto \
 "
 
