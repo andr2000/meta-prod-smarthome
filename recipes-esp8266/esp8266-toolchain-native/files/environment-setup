@@ -26,7 +26,7 @@ echo "Toolchain path: ${DEFAULT_PATH}"
 
 PATH=${DEFAULT_PATH}/${TARGET_NAME}/bin:$PATH
 export TOOLCHAIN_ROOT="${DEFAULT_PATH}/${TARGET_NAME}"
-export SDK_ROOT="${DEFAULT_PATH}/sdk"
+export SDK_BASE="${DEFAULT_PATH}/sdk"
 export SYSROOT="${DEFAULT_PATH}/${TARGET_NAME}/${TARGET_NAME}/sysroot"
 
 export AR="${TARGET_PREFIX}ar"
