@@ -22,6 +22,10 @@ while getopts ":p:" opt; do
 	esac
 done
 
+if [ "${DEFAULT_PATH}" == "REPLACE_DEFAULT_PATH" ] ; then
+	DEFAULT_PATH="$(dirname $(readlink -f ${BASH_SOURCE[0]}))"
+fi
+
 echo "Toolchain path: ${DEFAULT_PATH}"
 
 PATH=${DEFAULT_PATH}/${TARGET_NAME}/bin:$PATH

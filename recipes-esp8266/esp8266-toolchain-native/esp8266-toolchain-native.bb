@@ -43,11 +43,15 @@ do_install() {
     # Write environment setup file
     local SRC_ENV_FILE="${S}/../${ENV_BASE_NAME}"
     sed -i "s!REPLACE_TARGET_NAME!${TARGET_NAME}!g" ${SRC_ENV_FILE}
-    sed -i "s!REPLACE_DEFAULT_PATH!"${D}"!g" ${SRC_ENV_FILE}
+    install -m 0744 ${SRC_ENV_FILE} "${D}/${ENV_BASE_NAME}-${TARGET_NAME}"
+
+    # Scipt in shared folder is used by recipes, so change
+    # the default toolchain path to point to the real toolchain/SDK
+    # built during this build.
+    sed -i "s!=\"REPLACE_DEFAULT_PATH!"=\"${D}"!g" ${SRC_ENV_FILE}
 
     install -d "${XT_SHARED_ROOTFS_DIR}/${PN}"
     install -m 0744 ${SRC_ENV_FILE} "${XT_SHARED_ROOTFS_DIR}/${PN}/${ENV_BASE_NAME}-${TARGET_NAME}"
-    install -m 0744 ${SRC_ENV_FILE} "${D}/${ENV_BASE_NAME}-${TARGET_NAME}"
 }
 
 
