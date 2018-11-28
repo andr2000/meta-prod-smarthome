@@ -17,6 +17,8 @@ ENV_BASE_NAME="environment-setup"
 SRC_URI = " \
     gitsm://github.com/pfalcon/esp-open-sdk.git \
     file://${ENV_BASE_NAME} \
+    file://0001-Add-vendor-SDK-2.2.0.patch \
+    file://0002-Add-support-for-SDK-version-3.0.0.patch \
 "
 PROVIDES = "${PN}"
 
