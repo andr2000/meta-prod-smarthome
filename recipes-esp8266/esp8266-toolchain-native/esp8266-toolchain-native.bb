@@ -10,6 +10,7 @@ PR = "r0"
 S = "${WORKDIR}/git"
 
 SRCREV = "${AUTOREV}"
+SDK_REV="9fb3bb21e23efd840f2823dfe8a6096cabd3c0af"
 
 ENV_BASE_NAME="environment-setup"
 
@@ -19,7 +20,9 @@ SRC_URI = " \
     file://${ENV_BASE_NAME} \
     file://0001-Add-vendor-SDK-2.2.0.patch \
     file://0002-Add-support-for-SDK-version-3.0.0.patch \
+    file://0003-Allow-building-arbitrary-commit-of-the-SDK.patch \
 "
+
 PROVIDES = "${PN}"
 
 TARGET_NAME = "xtensa-lx106-elf"
@@ -31,7 +34,7 @@ TARGET_PREFIX = "${TARGET_NAME}-"
 
 do_compile() {
     cd ${S}
-    export MAKE=`which make`
+    export SDK_AT_COMMIT=${SDK_REV} MAKE=`which make`
     unset CC CFLAGS CXXFLAGS LDFLAGS
     make STANDALONE=y
 }

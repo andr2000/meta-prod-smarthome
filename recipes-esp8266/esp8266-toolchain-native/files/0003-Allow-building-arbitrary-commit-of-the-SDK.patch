@@ -1,0 +1,114 @@
+From 8a12a63bf6ed7c22d098d7592c6b7daf96a47909 Mon Sep 17 00:00:00 2001
+From: Oleksandr Andrushchenko <andr2000@gmail.com>
+Date: Thu, 29 Nov 2018 18:00:08 +0200
+Subject: [PATCH 3/3] Allow building arbitrary commit of the SDK
+
+Signed-off-by: Oleksandr Andrushchenko <andr2000@gmail.com>
+---
+ Makefile                | 19 +++++++++++++++++++
+ c_types-c99_sdk_3.patch | 35 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 54 insertions(+)
+ create mode 100644 c_types-c99_sdk_3.patch
+
+diff --git a/Makefile b/Makefile
+index 10264642c61f..407000eff632 100644
+--- a/Makefile
++++ b/Makefile
+@@ -12,6 +12,10 @@ TOOLCHAIN = $(TOP)/xtensa-lx106-elf
+ # for supported versions.
+ VENDOR_SDK = 3.0.0
+ 
++ifneq ($(SDK_AT_COMMIT),)
++VENDOR_SDK = $(SDK_AT_COMMIT)
++endif
++
+ .PHONY: crosstool-NG toolchain libhal libcirom sdk
+ 
+ 
+@@ -23,6 +27,8 @@ UNZIP = unzip -q -o
+ VENDOR_SDK_ZIP = $(VENDOR_SDK_ZIP_$(VENDOR_SDK))
+ VENDOR_SDK_DIR = $(VENDOR_SDK_DIR_$(VENDOR_SDK))
+ 
++VENDOR_SDK_ZIP_$(SDK_AT_COMMIT) = ESP8266_NONOS_SDK-$(SDK_AT_COMMIT).zip
++VENDOR_SDK_DIR_$(SDK_AT_COMMIT) = ESP8266_NONOS_SDK-$(SDK_AT_COMMIT)
+ VENDOR_SDK_ZIP_3.0.0 = ESP8266_NONOS_SDK-3.0.zip
+ VENDOR_SDK_DIR_3.0.0 = ESP8266_NONOS_SDK-3.0
+ VENDOR_SDK_ZIP_2.2.0 = ESP8266_NONOS_SDK-2.2.0.zip
+@@ -186,6 +192,10 @@ $(VENDOR_SDK_DIR)/.dir: $(VENDOR_SDK_ZIP)
+ 	-mv License $(VENDOR_SDK_DIR)
+ 	touch $@
+ 
++$(VENDOR_SDK_DIR_$(SDK_AT_COMMIT))/.dir: $(VENDOR_SDK_ZIP_$(SDK_AT_COMMIT))
++	$(UNZIP) $^
++	touch $@
++
+ $(VENDOR_SDK_DIR_3.0.0)/.dir: $(VENDOR_SDK_ZIP_3.0.0)
+ 	$(UNZIP) $^
+ 	touch $@
+@@ -218,6 +228,13 @@ $(VENDOR_SDK_DIR_1.5.4)/.dir: $(VENDOR_SDK_ZIP_1.5.4)
+ 
+ sdk_patch: $(VENDOR_SDK_DIR)/.dir .sdk_patch_$(VENDOR_SDK)
+ 
++.sdk_patch_$(SDK_AT_COMMIT): user_rf_cal_sector_set.o
++	echo -e "#undef ESP_SDK_VERSION\n#define ESP_SDK_VERSION 0300000" >>$(VENDOR_SDK_DIR)/include/esp_sdk_ver.h
++	$(PATCH) -d $(VENDOR_SDK_DIR) -p1 < c_types-c99_sdk_3.patch
++	cd $(VENDOR_SDK_DIR)/lib; mkdir -p tmp; cd tmp; $(TOOLCHAIN)/bin/xtensa-lx106-elf-ar x ../libcrypto.a; cd ..; $(TOOLCHAIN)/bin/xtensa-lx106-elf-ar rs libwpa.a tmp/*.o
++	$(TOOLCHAIN)/bin/xtensa-lx106-elf-ar r $(VENDOR_SDK_DIR)/lib/libmain.a user_rf_cal_sector_set.o
++	@touch $@
++
+ .sdk_patch_3.0.0: user_rf_cal_sector_set.o
+ 	echo -e "#undef ESP_SDK_VERSION\n#define ESP_SDK_VERSION 030000" >>$(VENDOR_SDK_DIR)/include/esp_sdk_ver.h
+ 	$(PATCH) -d $(VENDOR_SDK_DIR) -p1 < c_types-c99_sdk_2.patch
+@@ -393,6 +410,8 @@ ifeq ($(STANDALONE),y)
+ endif
+ 
+ 
++ESP8266_NONOS_SDK-$(SDK_AT_COMMIT).zip:
++	wget --content-disposition "https://github.com/espressif/ESP8266_NONOS_SDK/archive/$(SDK_AT_COMMIT).zip"
+ ESP8266_NONOS_SDK-3.0.zip:
+ 	wget --content-disposition "https://github.com/espressif/ESP8266_NONOS_SDK/archive/v3.0.zip"
+ ESP8266_NONOS_SDK-2.2.0.zip:
+diff --git a/c_types-c99_sdk_3.patch b/c_types-c99_sdk_3.patch
+new file mode 100644
+index 000000000000..7697959979c4
+--- /dev/null
++++ b/c_types-c99_sdk_3.patch
+@@ -0,0 +1,35 @@
++--- ESP8266_NONOS_SDK-9fb3bb21e23efd840f2823dfe8a6096cabd3c0af/include/c_types.h	2018-11-12 08:29:55.000000000 +0200
+++++ ESP8266_NONOS_SDK-3.0/include/c_types.h	2018-11-29 20:18:15.761078483 +0200
++@@ -25,17 +25,13 @@
++ #ifndef _C_TYPES_H_
++ #define _C_TYPES_H_
++ 
++-typedef unsigned char       uint8_t;
+++#include <stdint.h>
+++#include <stdbool.h>
+++
++ typedef signed char         sint8_t;
++-typedef signed char         int8_t;
++-typedef unsigned short      uint16_t;
++ typedef signed short        sint16_t;
++-typedef signed short        int16_t;
++-typedef unsigned int        uint32_t;
++-typedef signed int          sint32_t;
++-typedef signed int          int32_t;
+++typedef signed long         sint32_t;
++ typedef signed long long    sint64_t;
++-typedef unsigned long long  uint64_t;
++ typedef unsigned long long  u_int64_t;
++ typedef float               real32_t;
++ typedef double              real64_t;
++@@ -101,10 +97,7 @@
++ #define STORE_ATTR __attribute__((aligned(4)))
++ 
++ #ifndef __cplusplus
++-typedef unsigned char   bool;
++ #define BOOL            bool
++-#define true            (1)
++-#define false           (0)
++ #define TRUE            true
++ #define FALSE           false
++ 
+-- 
+2.19.1
+
