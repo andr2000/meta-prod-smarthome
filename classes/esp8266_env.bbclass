@@ -11,6 +11,5 @@ base_do_compile_prepend() {
     fi
     source ${ENV_FILE}
 
-    export SDK_BASE=$TOOLCHAIN_ROOT
     export PATH="${ESP8266_HOST_INSTALL_DIR}:$PATH"
 }
