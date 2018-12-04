@@ -36,13 +36,15 @@ XT_BB_LOCAL_CONF_FILE = "meta-xt-prod-extra/doc/local.conf.image-minimal-initram
 
 XT_BB_IMAGE_TARGET = "core-image-vaillant-initramfs"
 
+XT_VALLIANT_MACHINE ?= "raspberrypi0-wifi"
+
 add_to_local_conf() {
     local local_conf="${S}/build/conf/local.conf"
 
     cd ${S}
 
     # This image is for Raspberry Pi Zero W
-    base_update_conf_value ${local_conf} MACHINE "raspberrypi0-wifi"
+    base_update_conf_value ${local_conf} MACHINE "${XT_VALLIANT_MACHINE}"
 }
 
 python do_configure_append() {
