@@ -43,8 +43,11 @@ add_to_local_conf() {
 
     cd ${S}
 
-    # This image is for Raspberry Pi Zero W
+    # This image is for Raspberry Pi Zero W?
     base_update_conf_value ${local_conf} MACHINE "${XT_VALLIANT_MACHINE}"
+
+    # Get the root password from the local conf
+    base_update_conf_value ${local_conf} VALLIANT_ROOT_PWD "${VALLIANT_ROOT_PWD}"
 }
 
 python do_configure_append() {
