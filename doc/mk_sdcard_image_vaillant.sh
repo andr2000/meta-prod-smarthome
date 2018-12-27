@@ -72,8 +72,8 @@ partition_image()
 	# 2. Secrets's partition
 	# 3. All the reset
 	sudo parted -s $1 mkpart primary fat32 1MiB 256MiB
-	sudo parted -s $1 mkpart primary ext4 256MiB 264MiB
-	sudo parted -s $1 mkpart primary ext4 264MiB 100%
+	sudo parted -s $1 mkpart primary ext4 256MiB 512MiB
+	sudo parted -s $1 mkpart primary ext4 512MiB 100%
 
 	sudo partprobe $1
 }
