@@ -68,4 +68,5 @@ BBMASK = "meta-rpi/recipes-connectivity/openssh"
 # Disable old mosquitto from meta-oe sumo branch
 BBMASK += "meta-openembedded/meta-oe/recipes-connectivity/mosquitto"
 BBMASK += "meta-rpi/recipes-connectivity/mosquitto"
-
+# We provide our own network configuration
+BBMASK += "meta-rpi/recipes-core/init-ifupdown"
