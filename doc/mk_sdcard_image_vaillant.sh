@@ -216,7 +216,8 @@ unpack_boot()
 	local valliant_name=`ls $db_base_folder | grep valliant`
 	local valliant_root=$db_base_folder/$valliant_name
 
-	local Image=`find $valliant_root -name zImage`
+	local KERNEL_IMAGETYPE="zImage"
+	local Image=`find $valliant_root -name ${KERNEL_IMAGETYPE}`
 	local initrd=`find $valliant_root -name initrd`
 	local initrd_dest=`readlink $initrd`
 	local deploy_dir=`dirname $initrd`
@@ -242,6 +243,14 @@ unpack_boot()
 
 	for f in $DTBS ; do
 		sudo cp -L $deploy_dir/$f "${MOUNT_POINT}/"
+	done
+
+	for f in $deploy_dir/${KERNEL_IMAGETYPE}-*.dtbo; do
+		if [ -L $f ]; then
+			fname="${f##*/}"
+			frename="${fname#${KERNEL_IMAGETYPE}-}"
+			sudo cp "$f" "${MOUNT_POINT}/overlays/$frename"
+		fi
 	done
 
 	umount_part $loop_base $part
