@@ -21,6 +21,7 @@ SRCREV = "${AUTOREV}"
 SRC_URI = " \
     git://github.com/john30/ebusd.git;protocol=https;branch=master \
     file://0001-Use-init.d-functions-for-non-LSB-distributions.patch \
+    file://ebusd \
 "
 
 INITSCRIPT_NAME = "ebusd"
@@ -31,7 +32,7 @@ do_install_append() {
     install -m 0744 ${S}/contrib/debian/init.d/ebusd ${D}${sysconfdir}/init.d/
 
     install -d ${D}${sysconfdir}/default
-    install -m 0744 ${S}/contrib/debian/default/ebusd ${D}${sysconfdir}/default/ebusd
+    install -m 0744 ${S}/../ebusd ${D}${sysconfdir}/default/ebusd
 
     install -d ${D}${sysconfdir}/logrotate.d
     install -m 0744 ${S}/contrib/etc/logrotate.d/ebusd ${D}${sysconfdir}/logrotate.d/
