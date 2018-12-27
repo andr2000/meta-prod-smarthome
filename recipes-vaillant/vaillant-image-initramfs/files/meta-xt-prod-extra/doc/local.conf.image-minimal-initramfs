@@ -54,9 +54,9 @@ SDKMACHINE = "x86_64"
 #EXTRA_IMAGE_FEATURES = "debug-tweaks"
 
 # set root password to whatever is requested via VALLIANT_ROOT_PWD or root
-VALLIANT_ROOT_PWD ?= "root"
+VAILLANT_ROOT_PWD ?= "root"
 INHERIT += "extrausers"
-EXTRA_USERS_PARAMS = "usermod -P ${VALLIANT_ROOT_PWD} root; "
+EXTRA_USERS_PARAMS = "usermod -P ${VAILLANT_ROOT_PWD} root; "
 
 USER_CLASSES = "image-mklibs image-prelink"
 PATCHRESOLVE = "noop"
