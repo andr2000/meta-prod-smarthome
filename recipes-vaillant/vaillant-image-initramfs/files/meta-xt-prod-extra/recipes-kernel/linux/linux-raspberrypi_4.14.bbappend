@@ -5,3 +5,5 @@ SRC_URI += " \
 "
 
 KBUILD_DEFCONFIG = "defconfig"
+
+CMDLINE = "dwc_otg.lpm_enable=0 ${SERIAL}"
