@@ -57,6 +57,7 @@ VAILLANT_SUPPORT = " \
     ebusd \
     ebusd-configuration \
     mosquitto \
+    python \
 "
 
 IMAGE_INSTALL += " \
