@@ -31,6 +31,7 @@ DEV_EXTRAS = " \
     ntp \
     ntp-tickadj \
     serialecho  \
+    experimental \
 "
 
 EXTRA_TOOLS_INSTALL = " \

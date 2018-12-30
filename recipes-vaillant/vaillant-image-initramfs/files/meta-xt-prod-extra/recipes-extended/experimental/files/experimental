@@ -1,0 +1,26 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:           experimental
+# Required-Start
+# Required-Stop
+# Default-Start       S
+# Default-Stop:
+# Short-Description:  Run experimental code from within initramfs
+### END INIT INFO
+
+# Only support start command
+if [ "$1" != "start" ]; then
+    exit 0
+fi
+
+DIRECTORY="/mnt/data/experimental"
+
+if [ -d "$DIRECTORY" ]; then
+    for file in $DIRECTORY/*.sh; do
+        if [ -f "$file" ] && [ -x "$file" ]; then
+		bash "$file" &
+	fi
+    done
+fi
+
+exit 0
