@@ -69,11 +69,6 @@ IMAGE_INSTALL += " \
     ${VAILLANT_SUPPORT} \
 "
 
-# Kyiv
-set_local_timezone() {
-    ln -sf /usr/share/zoneinfo/EET-2EEST ${IMAGE_ROOTFS}/etc/localtime
-}
-
 disable_bootlogd() {
     echo BOOTLOGD_ENABLE=no > ${IMAGE_ROOTFS}/etc/default/bootlogd
 }
