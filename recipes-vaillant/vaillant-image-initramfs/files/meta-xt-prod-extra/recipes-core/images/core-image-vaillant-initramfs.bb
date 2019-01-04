@@ -61,12 +61,18 @@ VAILLANT_SUPPORT = " \
     python \
 "
 
+TSDB_SUPPORT += " \
+    github.com-influxdata-influxdb \
+    github.com-influxdata-telegraf \
+    grafana-go \
+"
 IMAGE_INSTALL += " \
     ${CORE_OS} \
     ${DEV_EXTRAS} \
     ${EXTRA_TOOLS_INSTALL} \
     ${WIFI_SUPPORT} \
     ${VAILLANT_SUPPORT} \
+    ${TSDB_SUPPORT} \
 "
 
 disable_bootlogd() {
