@@ -15,7 +15,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/../../machine:"
 ################################################################################
 # Raspberry Pi Zero W Vaillant
 ################################################################################
-SRC_URI = "repo://github.com/andr2000/meta-products;protocol=https;branch=master;manifest=vaillant.xml;scmdata=keep"
+SRC_URI = "repo://github.com/andr2000/meta-products;protocol=https;branch=pr_influxdb;manifest=vaillant.xml;scmdata=keep"
 
 ###############################################################################
 # extra layers and files to be put after Yocto's do_unpack into inner builder
