@@ -17,6 +17,9 @@ BBLAYERS ?= " \
   ${TOPDIR}/../meta-raspberrypi \
   ${TOPDIR}/../meta-security \
   ${TOPDIR}/../meta-rpi \
+  ${TOPDIR}/../meta-influx \
+  ${TOPDIR}/../meta-nodejs \
+  ${TOPDIR}/../oe-meta-go \
 "
 
 BBLAYERS_NON_REMOVABLE ?= " \
