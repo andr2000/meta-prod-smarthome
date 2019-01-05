@@ -58,7 +58,7 @@ VAILLANT_SUPPORT = " \
     ebusd \
     ebusd-configuration \
     mosquitto \
-    python \
+    python3 \
 "
 
 TSDB_SUPPORT += " \
