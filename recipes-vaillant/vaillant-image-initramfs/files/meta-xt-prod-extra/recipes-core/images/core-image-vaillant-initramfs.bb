@@ -22,14 +22,12 @@ CORE_OS = " \
     term-prompt \
     tzdata \
 "
-
 WIFI_SUPPORT = " \
     crda \
     iw \
     linux-firmware-raspbian \
     wpa-supplicant \
 "
-
 DEV_EXTRAS = " \
     ntp \
     ntp-tickadj \
@@ -57,7 +55,6 @@ EXTRA_TOOLS_INSTALL = " \
     wget \
     zip \
 "
-
 VAILLANT_SUPPORT = " \
     ebusd \
     ebusd-configuration \
@@ -69,6 +66,7 @@ TSDB_SUPPORT += " \
     github.com-influxdata-influxdb \
     github.com-influxdata-telegraf \
     grafana-go \
+    python3-influxdb \
 "
 
 # These packages are removed from the initramfs and isnatlled
