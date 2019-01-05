@@ -35,5 +35,5 @@ do_install_append() {
     install -m 0744 ${S}/../ebusd ${D}${sysconfdir}/default/ebusd
 
     install -d ${D}${sysconfdir}/logrotate.d
-    install -m 0744 ${S}/contrib/etc/logrotate.d/ebusd ${D}${sysconfdir}/logrotate.d/
+    install -m 0644 ${S}/contrib/etc/logrotate.d/ebusd ${D}${sysconfdir}/logrotate.d/
 }
