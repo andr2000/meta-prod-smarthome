@@ -74,7 +74,6 @@ disable_bootlogd() {
 }
 
 ROOTFS_POSTPROCESS_COMMAND += " \
-    set_local_timezone ; \
     disable_bootlogd ; \
  "
 
