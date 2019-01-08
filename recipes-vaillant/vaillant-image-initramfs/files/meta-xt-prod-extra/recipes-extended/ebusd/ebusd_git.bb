@@ -28,6 +28,10 @@ SRC_URI = " \
 INITSCRIPT_NAME = "ebusd"
 INITSCRIPT_PARAMS = "defaults 99"
 
+FILES_${PN} += " \
+    ${VAILLANT_MNT_SECRET}${sysconfdir}/default/* \
+"
+
 do_install_append() {
     install -d ${D}${sysconfdir}/init.d
     install -m 0744 ${S}/contrib/debian/init.d/ebusd ${D}${sysconfdir}/init.d/

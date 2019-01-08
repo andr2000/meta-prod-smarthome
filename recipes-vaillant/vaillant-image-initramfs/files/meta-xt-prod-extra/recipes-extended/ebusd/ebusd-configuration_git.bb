@@ -12,7 +12,10 @@ SRCREV = "${AUTOREV}"
 
 SRC_URI = "git://github.com/john30/ebusd-configuration.git;protocol=https;branch=master"
 
-FILES_${PN} = "${sysconfdir}/ebusd/*"
+FILES_${PN} += "\
+    ${VAILLANT_MNT_SECRET}${sysconfdir}/* \
+    ${sysconfdir}/* \
+"
 
 do_install_append() {
     # Have a backup copy in the initramfs...
@@ -21,5 +24,5 @@ do_install_append() {
 
     # ...and also a working copy in /mnt/secret
     install -d ${D}${VAILLANT_MNT_SECRET}/${sysconfdir}/ebusd
-    cp -r ${S}/ebusd-2.1.x/* ${D}${sysconfdir}${VAILLANT_MNT_SECRET}/ebusd/
+    cp -r ${S}/ebusd-2.1.x/* ${D}${VAILLANT_MNT_SECRET}/${sysconfdir}/ebusd/
 }

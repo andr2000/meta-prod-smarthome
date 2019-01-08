@@ -4,7 +4,9 @@ SRC_URI += " \
     file://wpa_supplicant.conf \
 "
 
-FILES_${PN} += "${VAILLANT_MNT_SECRET}/${sysconfdir}/*"
+FILES_${PN} += " \
+    ${VAILLANT_MNT_SECRET}${sysconfdir}/* \
+"
 
 do_install_append () {
     install -d ${D}${VAILLANT_MNT_SECRET}/${sysconfdir}

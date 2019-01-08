@@ -1,5 +1,9 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
+FILES_${PN} += " \
+    ${VAILLANT_MNT_SECRET}/ssh \
+"
+
 do_install_append() {
     # This folder will contain ssh keys
     install -d ${D}${VAILLANT_MNT_SECRET}/ssh
