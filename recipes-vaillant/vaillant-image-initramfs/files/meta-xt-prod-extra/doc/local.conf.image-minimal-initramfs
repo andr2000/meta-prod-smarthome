@@ -64,6 +64,9 @@ EXTRA_USERS_PARAMS = "usermod -P ${VAILLANT_ROOT_PWD} root; "
 VAILLANT_MNT_DATA ?= "/mnt/data"
 VAILLANT_MNT_SECRET ?= "/mnt/secret"
 
+SMARTHOME_TELEMETRY_SSID ?= "tele_wrong_ssid"
+SMARTHOME_TELEMETRY_PWD ?= "tele_wrong_pwd"
+
 USER_CLASSES = "image-mklibs image-prelink"
 PATCHRESOLVE = "noop"
 RM_OLD_IMAGE = "1"

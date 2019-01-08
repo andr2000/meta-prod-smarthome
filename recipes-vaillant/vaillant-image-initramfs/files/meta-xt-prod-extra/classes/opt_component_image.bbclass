@@ -17,4 +17,11 @@ do_rootfs_pack_opt () {
     mkdir ${IMAGE_ROOTFS}/../rootfs-opt
     mv opt/* ${IMAGE_ROOTFS}/../rootfs-opt
     ln -sfr  ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}-opt.cpio.gz ${DEPLOY_DIR_IMAGE}/rootfs-opt.cpio.gz
+
+    # Pack ${VAILLANT_MNT_SECRET} as an additional image and remove from initramfs
+    find .${VAILLANT_MNT_SECRET} | cpio --quiet -R 0:0 -H newc -o | gzip -9 -n > ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}-secret.cpio.gz
+    rm -rf ${IMAGE_ROOTFS}/../rootfs-secret
+    mkdir ${IMAGE_ROOTFS}/../rootfs-secret
+    mv ${VAILLANT_MNT_SECRET}/* ${IMAGE_ROOTFS}/../rootfs-secret
+    ln -sfr  ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}-secret.cpio.gz ${DEPLOY_DIR_IMAGE}/rootfs-secret.cpio.gz
 }

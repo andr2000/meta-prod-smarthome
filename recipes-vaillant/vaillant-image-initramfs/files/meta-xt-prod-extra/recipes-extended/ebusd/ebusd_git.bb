@@ -22,6 +22,7 @@ SRC_URI = " \
     git://github.com/john30/ebusd.git;protocol=https;branch=master \
     file://0001-Use-init.d-functions-for-non-LSB-distributions.patch \
     file://ebusd \
+    file://ebusd-real \
 "
 
 INITSCRIPT_NAME = "ebusd"
@@ -34,6 +35,9 @@ do_install_append() {
     install -d ${D}${sysconfdir}/default
     install -m 0744 ${S}/../ebusd ${D}${sysconfdir}/default/ebusd
     sed -i "s/VAILLANT_MNT_SECRET/${VAILLANT_MNT_SECRET}/g" ${D}${sysconfdir}/default/ebusd
+
+    install -d ${D}${VAILLANT_MNT_SECRET}/${sysconfdir}/default
+    install -m 0744 ${S}/../ebusd-real ${D}${VAILLANT_MNT_SECRET}/${sysconfdir}/default/ebusd
 
     install -d ${D}${sysconfdir}/logrotate.d
     install -m 0644 ${S}/contrib/etc/logrotate.d/ebusd ${D}${sysconfdir}/logrotate.d/
