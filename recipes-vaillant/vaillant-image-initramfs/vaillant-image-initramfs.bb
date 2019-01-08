@@ -48,6 +48,10 @@ add_to_local_conf() {
 
     # Get the root password from the local conf
     base_update_conf_value ${local_conf} VAILLANT_ROOT_PWD "${VAILLANT_ROOT_PWD}"
+
+    # Get telemetry WiFi settings
+    base_update_conf_value ${local_conf} SMARTHOME_TELEMETRY_SSID "${SMARTHOME_TELEMETRY_SSID}"
+    base_update_conf_value ${local_conf} SMARTHOME_TELEMETRY_PWD "${SMARTHOME_TELEMETRY_PWD}"
 }
 
 python do_configure_append() {
