@@ -62,13 +62,23 @@ VAILLANT_SUPPORT = " \
     python \
 "
 
+# These packages are removed from the initramfs and isnatlled
+# into the overlay
+PACKAGE_OVERLAY_ROOTFS_INSTALL += " \
+    python3 \
+"
+
 IMAGE_INSTALL += " \
     ${CORE_OS} \
     ${DEV_EXTRAS} \
     ${EXTRA_TOOLS_INSTALL} \
     ${WIFI_SUPPORT} \
     ${VAILLANT_SUPPORT} \
+    ${PACKAGE_OVERLAY_ROOTFS_INSTALL} \
 "
+
+# Exclude from initramfs contents of the rootfs-overlay
+PACKAGE_EXCLUDE += "${PACKAGE_OVERLAY_ROOTFS_INSTALL}"
 
 disable_bootlogd() {
     echo BOOTLOGD_ENABLE=no > ${IMAGE_ROOTFS}/etc/default/bootlogd
