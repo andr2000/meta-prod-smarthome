@@ -47,7 +47,7 @@ add_to_local_conf() {
     base_update_conf_value ${local_conf} MACHINE "${XT_VALLIANT_MACHINE}"
 
     # Get the root password from the local conf
-    base_update_conf_value ${local_conf} VALLIANT_ROOT_PWD "${VALLIANT_ROOT_PWD}"
+    base_update_conf_value ${local_conf} VAILLANT_ROOT_PWD "${VAILLANT_ROOT_PWD}"
 }
 
 python do_configure_append() {
