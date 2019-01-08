@@ -34,7 +34,7 @@ do_install_append() {
 
     install -d ${D}${sysconfdir}/default
     install -m 0744 ${S}/../ebusd ${D}${sysconfdir}/default/ebusd
-    sed -i "s/VAILLANT_MNT_SECRET/${VAILLANT_MNT_SECRET}/g" ${D}${sysconfdir}/default/ebusd
+    sed -i "s#VAILLANT_MNT_SECRET#${VAILLANT_MNT_SECRET}#g" ${D}${sysconfdir}/default/ebusd
 
     install -d ${D}${VAILLANT_MNT_SECRET}/${sysconfdir}/default
     install -m 0744 ${S}/../ebusd-real ${D}${VAILLANT_MNT_SECRET}/${sysconfdir}/default/ebusd
