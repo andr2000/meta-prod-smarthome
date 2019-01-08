@@ -89,7 +89,8 @@ ROOTFS_POSTPROCESS_COMMAND += " \
  "
 
 # Allow big rootfs as it may contain /opt + /mnt/{data|secret}
-IMAGE_ROOTFS_SIZE = "1048510"
+IMAGE_ROOTFS_SIZE = "1048576"
+INITRAMFS_MAXSIZE = "32768"
 
 make_initrd_symlink() {
     ln -sfr  ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio.gz ${DEPLOY_DIR_IMAGE}/initrd
