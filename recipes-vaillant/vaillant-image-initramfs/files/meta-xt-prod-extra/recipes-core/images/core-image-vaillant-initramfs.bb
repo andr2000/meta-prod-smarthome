@@ -3,6 +3,7 @@ LICENSE = "MIT"
 
 inherit deploy
 inherit core-image
+inherit opt_component_image
 
 DEPENDS += "bcm2835-bootfiles"
 
@@ -92,3 +93,6 @@ create_mnt_points() {
 }
 
 IMAGE_PREPROCESS_COMMAND += " create_mnt_points; "
+
+# Force do rootfs as we might have moved /opt and /mnt/{data|secret} already
+do_rootfs[nostamp] = "1"
