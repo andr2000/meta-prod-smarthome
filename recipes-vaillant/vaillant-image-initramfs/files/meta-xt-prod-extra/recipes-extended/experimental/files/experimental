@@ -13,7 +13,7 @@ if [ "$1" != "start" ]; then
     exit 0
 fi
 
-DIRECTORY="/mnt/data/experimental"
+DIRECTORY="VAILLANT_MNT_DATA/experimental"
 
 if [ -d "$DIRECTORY" ]; then
     for file in $DIRECTORY/*.sh; do

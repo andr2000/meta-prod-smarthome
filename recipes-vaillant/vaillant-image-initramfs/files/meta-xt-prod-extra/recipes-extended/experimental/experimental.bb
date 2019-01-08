@@ -22,6 +22,7 @@ S = "${WORKDIR}"
 do_install() {
     install -d ${D}${sysconfdir}/init.d
     install -m 0755 ${S}/experimental ${D}${sysconfdir}/init.d/experimental
+    sed -i "s/VAILLANT_MNT_DATA/${VAILLANT_MNT_DATA}/g" ${D}${sysconfdir}/init.d/experimental
 }
 
 FILES_${PN} = " \
