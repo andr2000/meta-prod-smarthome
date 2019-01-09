@@ -61,7 +61,6 @@ VAILLANT_SUPPORT = " \
     ebusd \
     ebusd-configuration \
     mosquitto \
-    python \
 "
 
 # These packages are removed from the initramfs and isnatlled
