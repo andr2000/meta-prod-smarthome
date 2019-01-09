@@ -62,8 +62,6 @@ VAILLANT_SUPPORT = " \
     ebusd-configuration \
     mosquitto \
     python \
-    rrdtool \
-    rrdtool-python \
 "
 
 # These packages are removed from the initramfs and isnatlled
