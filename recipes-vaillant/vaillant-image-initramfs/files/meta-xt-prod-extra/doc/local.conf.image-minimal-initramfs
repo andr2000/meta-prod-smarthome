@@ -74,6 +74,8 @@ CONF_VERSION = "1"
 
 DEFAULT_TIMEZONE = "EET"
 
+BB_DANGLINGAPPENDS_WARNONLY = "1"
+
 # Disable sshd configuration from meta-rpi
 BBMASK = "meta-rpi/recipes-connectivity/openssh"
 # Disable old mosquitto from meta-oe sumo branch
