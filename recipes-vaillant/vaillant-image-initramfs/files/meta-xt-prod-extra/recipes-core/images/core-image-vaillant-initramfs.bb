@@ -64,17 +64,9 @@ VAILLANT_SUPPORT = " \
     python \
 "
 
-TSDB_SUPPORT += " \
-    github.com-influxdata-influxdb \
-    github.com-influxdata-telegraf \
-    grafana-go \
-    python3-influxdb \
-"
-
 # These packages are removed from the initramfs and isnatlled
 # into the overlay
 PACKAGE_OVERLAY_ROOTFS_INSTALL += " \
-    ${TSDB_SUPPORT} \
     python3 \
 "
 
