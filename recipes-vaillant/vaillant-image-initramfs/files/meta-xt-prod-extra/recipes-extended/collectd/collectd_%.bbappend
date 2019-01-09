@@ -2,8 +2,12 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 DEPENDS += "mosquitto"
 
-SRC_URI = " \
+SRC_URI_append = " \
     file://collectd.conf \
+"
+
+FILES_${PN} += " \
+    ${VAILLANT_MNT_SECRET}${sysconfdir}/collectd.conf \
 "
 
 do_install_append() {
