@@ -46,6 +46,7 @@ do_rootfs_pack_overlay () {
     # so we cannot use it as is below: use own
     export IMAGE_NAME_SUFFIX_OVL="${IMAGE_NAME_SUFFIX}-overlay"
 
+    find ${IMGDEPLOYDIR}/ -name "*overlay*" -type f -delete || true
     find . | cpio --quiet -R 0:0 -H newc -o | gzip -9 -n > ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX_OVL}.cpio.gz
     chmod 0644 ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX_OVL}.cpio.gz
     cp -f ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX_OVL}.cpio.gz ${DEPLOY_DIR_IMAGE}/
