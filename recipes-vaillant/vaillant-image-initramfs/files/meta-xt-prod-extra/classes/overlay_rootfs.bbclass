@@ -46,6 +46,11 @@ do_rootfs_pack_overlay () {
     # so we cannot use it as is below: use own
     export IMAGE_NAME_SUFFIX_OVL="${IMAGE_NAME_SUFFIX}-overlay"
 
+    # Remove all files that are already installed into the initramfs
+    find ../rootfs -not -type d | cut -c 11- | xargs rm -f
+    # We now may have empty directories - remove those as well
+    find . -empty -type d -delete
+
     find ${IMGDEPLOYDIR}/ -name "*overlay*" -type f -delete || true
     find . | cpio --quiet -R 0:0 -H newc -o | gzip -9 -n > ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX_OVL}.cpio.gz
     chmod 0644 ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX_OVL}.cpio.gz
