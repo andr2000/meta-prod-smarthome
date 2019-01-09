@@ -1,6 +1,8 @@
 SUMMARY = "Valliant controlling domain"
 LICENSE = "MIT"
 
+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+
 inherit deploy
 inherit core-image
 inherit overlay_rootfs
@@ -115,3 +117,15 @@ IMAGE_PREPROCESS_COMMAND += " create_mnt_points; "
 
 # Force do rootfs as we might have moved /mnt/{data|secret} already
 do_rootfs[nostamp] = "1"
+
+FILESEXTRAPATHS_prepend := "${THISDIR}/../../doc:"
+
+SRC_URI_append = "\
+    file://mk_sdcard_image_vaillant.sh \
+"
+
+install_mk_script () {
+    install -m 0755 ${WORKDIR}/mk_sdcard_image_vaillant.sh ${DEPLOY_DIR_IMAGE}/
+}
+
+IMAGE_POSTPROCESS_COMMAND += " install_mk_script; "
