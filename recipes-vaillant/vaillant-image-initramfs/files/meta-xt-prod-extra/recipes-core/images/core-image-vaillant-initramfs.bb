@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 inherit deploy
 inherit core-image
-inherit opt_component_image
+inherit overlay_rootfs
 
 DEPENDS += "bcm2835-bootfiles"
 
@@ -98,7 +98,7 @@ ROOTFS_POSTPROCESS_COMMAND += " \
 
 # Allow big rootfs as it may contain /opt + /mnt/{data|secret}
 IMAGE_ROOTFS_SIZE = "1048576"
-INITRAMFS_MAXSIZE = "32768"
+INITRAMFS_MAXSIZE = "1048576"
 
 make_initrd_symlink() {
     ln -sfr  ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio.gz ${DEPLOY_DIR_IMAGE}/initrd
@@ -113,5 +113,5 @@ create_mnt_points() {
 
 IMAGE_PREPROCESS_COMMAND += " create_mnt_points; "
 
-# Force do rootfs as we might have moved /opt and /mnt/{data|secret} already
+# Force do rootfs as we might have moved /mnt/{data|secret} already
 do_rootfs[nostamp] = "1"
