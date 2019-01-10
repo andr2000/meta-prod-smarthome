@@ -107,6 +107,8 @@ make_initrd_symlink() {
 IMAGE_POSTPROCESS_COMMAND += " make_initrd_symlink; "
 
 create_mnt_points() {
+    mkdir -p ${IMAGE_ROOTFS}${VAILLANT_MNT_OVERLAY}/overlay
+    mkdir -p ${IMAGE_ROOTFS}${VAILLANT_MNT_OVERLAY}/workdir
     mkdir -p ${IMAGE_ROOTFS}${VAILLANT_MNT_SECRET}
     mkdir -p ${IMAGE_ROOTFS}${VAILLANT_MNT_DATA}
 }
