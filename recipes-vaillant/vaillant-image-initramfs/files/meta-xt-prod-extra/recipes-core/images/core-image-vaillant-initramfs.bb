@@ -118,14 +118,11 @@ IMAGE_PREPROCESS_COMMAND += " create_mnt_points; "
 # Force do rootfs as we might have moved /mnt/{data|secret} already
 do_rootfs[nostamp] = "1"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/../../doc:"
-
-SRC_URI_append = "\
-    file://mk_sdcard_image_vaillant.sh \
-"
-
-install_mk_script () {
-    install -m 0755 ${WORKDIR}/mk_sdcard_image_vaillant.sh ${DEPLOY_DIR_IMAGE}/
+install_mk_sdcard_script() {
+    local LAYERDIR=${TOPDIR}/../meta-xt-prod-extra
+    find ${LAYERDIR}/doc -iname "mk_sdcard_image_vaillant.sh" -exec cp -f {} ${DEPLOY_DIR}/ \; || true
 }
 
-IMAGE_POSTPROCESS_COMMAND += " install_mk_script; "
+do_image_complete_append () {
+    bb.build.exec_func("install_mk_sdcard_script", d)
+}
