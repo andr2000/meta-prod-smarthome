@@ -66,6 +66,7 @@ VAILLANT_SUPPORT = " \
     python3-logging \
     python3-io \
     python3-fcntl \
+    python3-daemonize \
     python3-configparser \
 "
 
