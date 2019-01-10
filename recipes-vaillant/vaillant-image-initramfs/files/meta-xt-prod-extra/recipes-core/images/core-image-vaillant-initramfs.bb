@@ -61,18 +61,18 @@ VAILLANT_SUPPORT = " \
     ebusd \
     ebusd-configuration \
     mosquitto \
-"
-
-# These packages are removed from the initramfs and isnatlled
-# into the overlay
-PACKAGE_OVERLAY_ROOTFS_INSTALL += " \
-    git \
     sqlite3 \
     python3-sqlite3 \
     python3-logging \
     python3-io \
     python3-fcntl \
     python3-configparser \
+"
+
+# These packages are removed from the initramfs and isnatlled
+# into the overlay
+PACKAGE_OVERLAY_ROOTFS_INSTALL += " \
+    git \
 "
 
 IMAGE_INSTALL += " \
