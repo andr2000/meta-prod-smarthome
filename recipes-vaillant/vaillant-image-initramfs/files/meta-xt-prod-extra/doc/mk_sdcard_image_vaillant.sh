@@ -61,6 +61,10 @@ inflate_image()
 ###############################################################################
 # Partition image
 ###############################################################################
+export PART_BOOT="1"
+export PART_OVERLAY="2"
+export PART_SECRET="3"
+export PART_DATA="4"
 partition_image()
 {
 	print_step "Make partitions"
@@ -69,11 +73,13 @@ partition_image()
 
 	# Skip first 1MiB
 	# 1. Boot partition
-	# 2. Secrets's partition
+	# 2. Overlay partition
+	# 3. Secrets's partition
 	# 3. All the reset
 	sudo parted -s $1 mkpart primary fat32 1MiB 256MiB
-	sudo parted -s $1 mkpart primary ext4 256MiB 512MiB
-	sudo parted -s $1 mkpart primary ext4 512MiB 100%
+	sudo parted -s $1 mkpart primary ext4 256MiB 1280MiB
+	sudo parted -s $1 mkpart primary ext4 1280MiB 1536MiB
+	sudo parted -s $1 mkpart primary ext4 1536MiB 100%
 
 	sudo partprobe $1
 }
@@ -99,7 +105,7 @@ mkfs_boot()
 {
 	local img_output_file=$1
 	local loop_base=$2
-	local part=1
+	local part=$PART_BOOT
 	local label=BOOT
 	local loop_dev="${loop_base}p${part}"
 
@@ -108,12 +114,20 @@ mkfs_boot()
 	sudo mkfs.vfat -F 32 $loop_dev -n $label
 }
 
+mkfs_overlay()
+{
+	local img_output_file=$1
+	local loop_dev=$2
+
+	mkfs_one $img_output_file $loop_dev $PART_OVERLAY overlay
+}
+
 mkfs_secret()
 {
 	local img_output_file=$1
 	local loop_dev=$2
 
-	mkfs_one $img_output_file $loop_dev 2 secret
+	mkfs_one $img_output_file $loop_dev $PART_SECRET secret
 }
 
 mkfs_data()
@@ -121,7 +135,7 @@ mkfs_data()
 	local img_output_file=$1
 	local loop_dev=$2
 
-	mkfs_one $img_output_file $loop_dev 3 data
+	mkfs_one $img_output_file $loop_dev $PART_DATA data
 }
 
 mkfs_image()
@@ -131,6 +145,7 @@ mkfs_image()
 	sudo losetup -P $loop_dev $img_output_file
 
 	mkfs_boot $img_output_file $loop_dev
+	mkfs_overlay $img_output_file $loop_dev
 	mkfs_secret $img_output_file $loop_dev
 	mkfs_data $img_output_file $loop_dev
 }
@@ -163,6 +178,31 @@ umount_part()
 ###############################################################################
 # Unpack
 ###############################################################################
+
+unpack_part_from_tar()
+{
+	local db_base_folder=$1
+	local loop_base=$2
+	local img_output_file=$3
+	local part=$4
+	local rootfs_basename=$5
+	local loop_dev=${loop_base}p${part}
+
+	local rootfs=`find $db_base_folder -name "rootfs-$rootfs_basename.cpio.gz"`
+
+	echo "Root filesystem is at $rootfs"
+
+	mount_part $loop_base $img_output_file $part $MOUNT_POINT
+
+	pushd .
+	cd $MOUNT_POINT
+
+        sudo gzip -cd $rootfs | sudo cpio -imd --quiet
+
+	popd
+
+	umount_part $loop_base $part
+}
 
 ###############################################################################
 # This comes from meta-rpi
@@ -209,7 +249,7 @@ unpack_boot()
 	local loop_base=$2
 	local img_output_file=$3
 
-	local part=1
+	local part=$PART_BOOT
 
 	print_step "Unpacking BOOT"
 
@@ -288,15 +328,19 @@ generate_key() {
 	sync "$DIR"
 }
 
-unpack_secret()
+unpack_secret_gen_keys()
 {
 	local loop_base=$2
 	local img_output_file=$3
-	local part=2
-
-	print_step "Unpacking secrets"
+	local part=$PART_SECRET
 
 	mount_part $loop_base $img_output_file $part $MOUNT_POINT
+
+	# Move $MOUNT_POINT/mnt/secret to $MOUNT_POINT
+	sudo mv ${MOUNT_POINT}/mnt/secret/* ${MOUNT_POINT}/
+	sudo rm -rf ${MOUNT_POINT}/mnt
+
+	print_step "Generating ssh keys"
 
 	local ssh_dir="${MOUNT_POINT}/ssh"
 	sudo mkdir "$ssh_dir" || true
@@ -316,6 +360,28 @@ unpack_secret()
 	umount_part $loop_base $part
 }
 
+unpack_secret()
+{
+	local db_base_folder=$1
+	local loop_dev=$2
+	local img_output_file=$3
+
+	print_step  "Unpacking secret file system"
+
+	unpack_part_from_tar $db_base_folder $loop_dev $img_output_file $PART_SECRET secret
+}
+
+unpack_overlay()
+{
+	local db_base_folder=$1
+	local loop_dev=$2
+	local img_output_file=$3
+
+	print_step  "Unpacking overlay file system"
+
+	unpack_part_from_tar $db_base_folder $loop_dev $img_output_file $PART_OVERLAY overlay
+}
+
 unpack_image()
 {
 	local db_base_folder=$1
@@ -323,7 +389,9 @@ unpack_image()
 	local img_output_file=$3
 
 	unpack_boot $db_base_folder $loop_dev $img_output_file
+	unpack_overlay $db_base_folder $loop_dev $img_output_file
 	unpack_secret $db_base_folder $loop_dev $img_output_file
+	unpack_secret_gen_keys $db_base_folder $loop_dev $img_output_file
 }
 
 ###############################################################################
