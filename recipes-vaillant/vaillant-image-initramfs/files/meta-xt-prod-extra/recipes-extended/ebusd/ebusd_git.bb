@@ -8,7 +8,7 @@ PR = "r0"
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 DEPENDS = "mosquitto"
-RDEPENDS_${PN} = "bash logrotate initscripts"
+RDEPENDS_${PN} = "bash logrotate initscripts libmosquitto1"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=66e1eeb3afdf47b310a8c763864b70c8"
 
