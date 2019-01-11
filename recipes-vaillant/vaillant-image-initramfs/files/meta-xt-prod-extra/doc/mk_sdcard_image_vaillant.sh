@@ -45,7 +45,7 @@ inflate_image()
 		read -r -p "File $dev exists, remove it? [y/N]:" yesno
 		case "$yesno" in
 		[yY])
-			sudo rm -f $dev || exit 1
+			rm -f $dev || exit 1
 		;;
 		*)
 			echo "Reusing existing image file"
@@ -54,7 +54,7 @@ inflate_image()
 		esac
 	fi
 	if [[ $inflate == 1 ]] ; then
-		sudo dd if=/dev/zero of=$dev bs=1M count=$(($size_gb*1024)) || exit 1
+		dd if=/dev/zero of=$dev bs=1M count=$(($size_gb*1024)) || exit 1
 	fi
 }
 
@@ -69,19 +69,19 @@ partition_image()
 {
 	print_step "Make partitions"
 
-	sudo parted -s $1 mklabel msdos
+	parted -s $1 mklabel msdos
 
 	# Skip first 1MiB
 	# 1. Boot partition
 	# 2. Overlay partition
 	# 3. Secrets's partition
 	# 3. All the reset
-	sudo parted -s $1 mkpart primary fat32 1MiB 256MiB
-	sudo parted -s $1 mkpart primary ext4 256MiB 1280MiB
-	sudo parted -s $1 mkpart primary ext4 1280MiB 1536MiB
-	sudo parted -s $1 mkpart primary ext4 1536MiB 100%
+	parted -s $1 mkpart primary fat32 1MiB 256MiB
+	parted -s $1 mkpart primary ext4 256MiB 1280MiB
+	parted -s $1 mkpart primary ext4 1280MiB 1536MiB
+	parted -s $1 mkpart primary ext4 1536MiB 100%
 
-	sudo partprobe $1
+	partprobe $1
 }
 
 ###############################################################################
@@ -98,7 +98,7 @@ mkfs_one()
 
 	print_step "Making ext4 filesystem for $label"
 
-	sudo mkfs.ext4 -O ^64bit -F $loop_dev -L $label
+	mkfs.ext4 -O ^64bit -F $loop_dev -L $label
 }
 
 mkfs_boot()
@@ -111,7 +111,7 @@ mkfs_boot()
 
 	print_step "Making FAT32 filesystem for $label"
 
-	sudo mkfs.vfat -F 32 $loop_dev -n $label
+	mkfs.vfat -F 32 $loop_dev -n $label
 }
 
 mkfs_overlay()
@@ -142,7 +142,7 @@ mkfs_image()
 {
 	local img_output_file=$1
 	local loop_dev=$2
-	sudo losetup -P $loop_dev $img_output_file
+	losetup -P $loop_dev $img_output_file
 
 	mkfs_boot $img_output_file $loop_dev
 	mkfs_overlay $img_output_file $loop_dev
@@ -163,7 +163,7 @@ mount_part()
 	local loop_dev=${loop_base}p${part}
 
 	mkdir -p "${mntpoint}" || true
-	sudo mount $loop_dev "${mntpoint}"
+	mount $loop_dev "${mntpoint}"
 }
 
 umount_part()
@@ -172,7 +172,7 @@ umount_part()
 	local part=$2
 	local loop_dev=${loop_base}p${part}
 
-	sudo umount $loop_dev
+	umount $loop_dev
 }
 
 ###############################################################################
@@ -194,12 +194,12 @@ unpack_part_from_tar()
 
 	mount_part $loop_base $img_output_file $part $MOUNT_POINT
 
-	pushd .
+	pushd . > /dev/null
 	cd $MOUNT_POINT
 
-        sudo gzip -cd $rootfs | sudo cpio -imd --quiet
+        gzip -cd $rootfs | cpio -imd --quiet
 
-	popd
+	popd > /dev/null
 
 	umount_part $loop_base $part
 }
@@ -271,25 +271,25 @@ unpack_boot()
 
 	mount_part $loop_base $img_output_file $part $MOUNT_POINT
 
-	sudo mkdir "${MOUNT_POINT}/overlays" || true
+	mkdir "${MOUNT_POINT}/overlays" || true
 
 	for f in $Image $initrd ; do
-		sudo cp -L $f "${MOUNT_POINT}/"
+		cp -L $f "${MOUNT_POINT}/"
 	done
 
 	for f in $BOOTLDRFILES ; do
-		sudo cp -L $deploy_dir/bcm2835-bootfiles/$f "${MOUNT_POINT}/"
+		cp -L $deploy_dir/bcm2835-bootfiles/$f "${MOUNT_POINT}/"
 	done
 
 	for f in $DTBS ; do
-		sudo cp -L $deploy_dir/$f "${MOUNT_POINT}/"
+		cp -L $deploy_dir/$f "${MOUNT_POINT}/"
 	done
 
 	for f in $deploy_dir/${KERNEL_IMAGETYPE}-*.dtbo; do
 		if [ -L $f ]; then
 			fname="${f##*/}"
 			frename="${fname#${KERNEL_IMAGETYPE}-}"
-			sudo cp "$f" "${MOUNT_POINT}/overlays/$frename"
+			cp "$f" "${MOUNT_POINT}/overlays/$frename"
 		fi
 	done
 
@@ -304,10 +304,10 @@ generate_key() {
 	local TYPE=$2
 	local DIR="$(dirname "$FILE")"
 
-	sudo ssh-keygen -q -f "${FILE}.tmp" -N '' -t $TYPE
+	ssh-keygen -q -f "${FILE}.tmp" -N '' -t $TYPE
 
 	# Atomically rename file public key
-	sudo mv -f "${FILE}.tmp.pub" "${FILE}.pub"
+	mv -f "${FILE}.tmp.pub" "${FILE}.pub"
 
 	# This sync does double duty: Ensuring that the data in the temporary
 	# private key file is on disk before the rename, and ensuring that the
@@ -322,7 +322,7 @@ generate_key() {
 	# which is just as well
 	sync "${FILE}.pub" "$DIR" "${FILE}.tmp"
 
-	sudo mv "${FILE}.tmp" "$FILE"
+	mv "${FILE}.tmp" "$FILE"
 
 	# sync to ensure the atomic rename is committed
 	sync "$DIR"
@@ -337,13 +337,13 @@ unpack_secret_gen_keys()
 	mount_part $loop_base $img_output_file $part $MOUNT_POINT
 
 	# Move $MOUNT_POINT/mnt/secret to $MOUNT_POINT
-	sudo mv ${MOUNT_POINT}/mnt/secret/* ${MOUNT_POINT}/
-	sudo rm -rf ${MOUNT_POINT}/mnt
+	mv ${MOUNT_POINT}/mnt/secret/* ${MOUNT_POINT}/
+	rm -rf ${MOUNT_POINT}/mnt
 
 	print_step "Generating ssh keys"
 
 	local ssh_dir="${MOUNT_POINT}/ssh"
-	sudo mkdir "$ssh_dir" || true
+	mkdir "$ssh_dir" || true
 
 	echo "Generating ssh RSA key..."
 	generate_key $ssh_dir/ssh_host_rsa_key rsa
@@ -410,9 +410,9 @@ make_image()
 	if [ ! -d "${MOUNT_POINT}" ]; then
 		mkdir "${MOUNT_POINT}"
 	else
-		sudo umount -f ${MOUNT_POINT} || true
+		umount -f ${MOUNT_POINT} || true
 	fi
-	ls ${img_output_file}?* | xargs -n1 sudo umount -l -f || true
+	ls ${img_output_file}?* | xargs -n1 umount -l -f || true
 
 	inflate_image $img_output_file $image_sg_gb
 	partition_image $img_output_file
@@ -420,7 +420,7 @@ make_image()
 	unpack_image $db_base_folder $loop_dev $img_output_file
 
 	sync
-	sudo losetup -d $loop_dev || true
+	losetup -d $loop_dev || true
 	print_step "Done"
 }
 
