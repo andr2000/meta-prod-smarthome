@@ -74,6 +74,7 @@ VAILLANT_SUPPORT = " \
 # into the overlay
 PACKAGE_OVERLAY_ROOTFS_INSTALL += " \
     git \
+    andr2000-addons \
 "
 
 IMAGE_INSTALL += " \
