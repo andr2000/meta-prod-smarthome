@@ -120,7 +120,7 @@ do_rootfs[nostamp] = "1"
 
 install_mk_sdcard_script() {
     local LAYERDIR=${TOPDIR}/../meta-xt-prod-extra
-    find ${LAYERDIR}/doc -iname "mk_sdcard_image_vaillant.sh" -exec cp -f {} ${DEPLOY_DIR}/ \; || true
+    install -m 0755 ${LAYERDIR}/doc/mk_sdcard_image_vaillant.sh ${DEPLOY_DIR}/
 }
 
 do_image_complete_append () {

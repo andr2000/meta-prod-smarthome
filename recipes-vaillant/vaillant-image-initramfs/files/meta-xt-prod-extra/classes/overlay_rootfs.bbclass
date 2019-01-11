@@ -51,7 +51,7 @@ do_rootfs_pack_overlay () {
     # We now may have empty directories - remove those as well
     find . -empty -type d -delete
 
-    find ${IMGDEPLOYDIR}/ -name "*overlay*" -type f -delete || true
+    find ${DEPLOY_DIR_IMAGE}/ -name "*overlay*" -type f -delete || true
     find . | cpio --quiet -R 0:0 -H newc -o | gzip -9 -n > ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX_OVL}.cpio.gz
     chmod 0644 ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX_OVL}.cpio.gz
     cp -f ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX_OVL}.cpio.gz ${DEPLOY_DIR_IMAGE}/
