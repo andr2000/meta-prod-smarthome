@@ -161,7 +161,7 @@ VAILLANT_CMDS="\
 "
 
 mkdir -p VAILLANT_MNT_DATA/log || true
-LOG_FILE="VAILLANT_MNT_DATA/vaillant.log"
+LOG_FILE="VAILLANT_MNT_DATA/log/vaillant.log"
 
 date=`date +%F%t%T`
 echo "$date START ======================================" >> $LOG_FILE

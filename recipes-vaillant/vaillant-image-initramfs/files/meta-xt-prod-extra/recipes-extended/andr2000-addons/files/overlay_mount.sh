@@ -1,3 +1,5 @@
 #!/bin/bash -x
 
-mount -t overlay overlay -o lowerdir=/usr,upperdir=/mnt/data/dev/overlay/usr,workdir=/mnt/data/dev/workdir /usr
+mkdir -p /mnt/data/overlay/workdir || true
+
+mount -t overlay overlay -o lowerdir=/usr,upperdir=/mnt/overlay/usr,workdir=/mnt/data/overlay/workdir /usr
