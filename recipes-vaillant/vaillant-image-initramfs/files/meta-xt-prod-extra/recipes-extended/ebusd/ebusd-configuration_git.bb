@@ -10,7 +10,7 @@ S = "${WORKDIR}/git"
 
 SRCREV = "${AUTOREV}"
 
-SRC_URI = "git://github.com/john30/ebusd-configuration.git;protocol=https;branch=master"
+SRC_URI = "git://github.com/andr2000/ebusd-configuration.git;protocol=https;branch=master"
 
 FILES_${PN} += "\
     ${VAILLANT_MNT_SECRET}${sysconfdir}/* \
