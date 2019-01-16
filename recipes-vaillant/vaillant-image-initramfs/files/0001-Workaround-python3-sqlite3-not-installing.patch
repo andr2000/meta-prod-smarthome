@@ -1,0 +1,37 @@
+From c4986dfcc4e8cd95b89eb71752d2bf7f498c3a00 Mon Sep 17 00:00:00 2001
+From: Oleksandr Andrushchenko <andr2000@gmail.com>
+Date: Wed, 16 Jan 2019 20:32:04 +0200
+Subject: [PATCH] Workaround python3-sqlite3 not installing...
+
+__init__.py script. This is based on:
+https://lists.yoctoproject.org/pipermail/yocto/2018-September/042666.html
+
+Signed-off-by: Oleksandr Andrushchenko <andr2000@gmail.com>
+---
+ meta/recipes-devtools/python/python3/python3-manifest.json | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
+index 2491f36db2..9516b7c7a3 100644
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+@@ -979,12 +979,14 @@
+         "cached": [
+             "${libdir}/python3.5/sqlite3/__pycache__",
+             "${libdir}/python3.5/sqlite3/__pycache__/dbapi2.*.pyc",
+-            "${libdir}/python3.5/sqlite3/__pycache__/dump.*.pyc"
++            "${libdir}/python3.5/sqlite3/__pycache__/dump.*.pyc",
++            "${libdir}/python3.5/sqlite3/__pycache__/__init__.pyc"
+         ],
+         "files": [
+             "${libdir}/python3.5/lib-dynload/_sqlite3.*.so",
+             "${libdir}/python3.5/sqlite3/dbapi2.py",
+-            "${libdir}/python3.5/sqlite3/dump.py"
++            "${libdir}/python3.5/sqlite3/dump.py",
++            "${libdir}/python3.5/sqlite3/__init__.py"
+         ],
+         "rdepends": [
+             "core",
+-- 
+2.20.1
+
