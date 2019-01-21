@@ -16,7 +16,7 @@ index 9ad6f95..fca1f17 100644
  # Vendor SDK version to install, see VENDOR_SDK_ZIP_* vars below
  # for supported versions.
 -VENDOR_SDK = 2.1.0-18-g61248df
-+VENDOR_SDK = 2.2.0
++VENDOR_SDK ?= 2.2.0
  
  .PHONY: crosstool-NG toolchain libhal libcirom sdk
  
