@@ -20,3 +20,8 @@ do_compile_append() {
     cd ${SMING_HOME}
     make ${PARALLEL_MAKE}
 }
+
+do_install() {
+    # Write environment setup file
+    echo "export SMING_HOME=${SMING_HOME}" >> "${XT_SHARED_ROOTFS_DIR}/environment-${PN}"
+}
