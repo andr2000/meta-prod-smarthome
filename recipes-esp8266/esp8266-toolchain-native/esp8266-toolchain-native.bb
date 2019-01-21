@@ -62,7 +62,7 @@ do_install() {
 
 do_populate_sdk() {
     install -d ${DEPLOY_DIR}/${PN}
-    tar cjf ${DEPLOY_DIR}/${PN}/${PN}.tar.bz2 -C ${D} .
+    tar cjf ${DEPLOY_DIR}/${PN}/${PN}.${VENDOR_SDK}.tar.bz2 -C ${D} .
 }
 
 FILES_${PN} = "\
