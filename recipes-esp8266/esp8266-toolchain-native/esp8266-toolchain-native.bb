@@ -11,6 +11,8 @@ S = "${WORKDIR}/git"
 
 SRCREV = "${AUTOREV}"
 
+VENDOR_SDK="1.5.4"
+
 ENV_BASE_NAME="environment-setup"
 
 # Fetch recursively
@@ -31,7 +33,7 @@ TARGET_PREFIX = "${TARGET_NAME}-"
 
 do_compile() {
     cd ${S}
-    export MAKE=`which make`
+    export MAKE=`which make` VENDOR_SDK=${VENDOR_SDK}
     unset CC CFLAGS CXXFLAGS LDFLAGS
     make STANDALONE=y
 }
