@@ -63,12 +63,7 @@ VAILLANT_SUPPORT = " \
     ebusd-configuration \
     mosquitto \
     sqlite3 \
-    python3-sqlite3 \
-    python3-logging \
-    python3-io \
-    python3-fcntl \
-    python3-daemonize \
-    python3-configparser \
+    ufh-controller \
 "
 
 # These packages are removed from the initramfs and isnatlled
