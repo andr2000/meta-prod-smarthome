@@ -1,0 +1,10 @@
+# /etc/default/ufh-controller:
+# Config file for ufh-controller service.
+
+# Make it possible to override the configuration
+if test -f VAILLANT_MNT_SECRET/etc/default/ufh-controller; then
+	. VAILLANT_MNT_SECRET/etc/default/ufh-controller
+	return
+fi
+
+UFH_ARGS="--config /etc/ufh-controller/ufh-controller.conf"
