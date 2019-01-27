@@ -55,6 +55,10 @@ add_to_local_conf() {
     # Get telemetry WiFi settings
     base_update_conf_value ${local_conf} SMARTHOME_TELEMETRY_SSID "${SMARTHOME_TELEMETRY_SSID}"
     base_update_conf_value ${local_conf} SMARTHOME_TELEMETRY_PWD "${SMARTHOME_TELEMETRY_PWD}"
+
+    # Get telegram settings
+    base_update_conf_value ${local_conf} TELEGRAM_BOT_TOKEN "${TELEGRAM_BOT_TOKEN}"
+    base_update_conf_value ${local_conf} TELEGRAM_CHAT_ID "${TELEGRAM_CHAT_ID}"
 }
 
 python do_configure_append() {
