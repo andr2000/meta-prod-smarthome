@@ -28,8 +28,6 @@ do_install() {
     install -d ${D}${VAILLANT_MNT_SECRET}/${PN}
     install -m 0755 ${S}/boot_count.sh ${D}${VAILLANT_MNT_SECRET}/${PN}/
     sed -i "s#VAILLANT_MNT_DATA#${VAILLANT_MNT_DATA}#g" ${D}${VAILLANT_MNT_SECRET}/${PN}/boot_count.sh
-    install -m 0755 ${S}/vaillant_read_all.sh ${D}${VAILLANT_MNT_SECRET}/${PN}/
-    sed -i "s#VAILLANT_MNT_DATA#${VAILLANT_MNT_DATA}#g" ${D}${VAILLANT_MNT_SECRET}/${PN}/vaillant_read_all.sh
 }
 
 FILES_${PN} = " \
