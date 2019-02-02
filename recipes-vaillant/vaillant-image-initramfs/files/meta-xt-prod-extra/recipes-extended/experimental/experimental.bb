@@ -11,7 +11,6 @@ RDEPENDS_${PN} = "bash initscripts"
 SRC_URI = " \
     file://${PN} \
     file://boot_count.sh \
-    file://vaillant_read_all.sh \
 "
 
 inherit update-rc.d
