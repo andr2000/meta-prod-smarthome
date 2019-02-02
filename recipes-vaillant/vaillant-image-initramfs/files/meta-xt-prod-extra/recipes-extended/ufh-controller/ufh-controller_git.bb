@@ -24,6 +24,7 @@ RDEPENDS_${PN} = "\
     python3-daemonize \
     python3-configparser \
     python3-pickle \
+    python3-threading \
 "
 
 SRCREV = "${AUTOREV}"
