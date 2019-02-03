@@ -86,8 +86,10 @@ ChallengeResponseAuthentication no
 #GSSAPICleanupCredentials yes
 
 AllowAgentForwarding no
+# Keep AllowTcpForwarding and GatewayPorts set to no if you want to disable
+# ssh tunnels, set to yes otherwise.
 AllowTcpForwarding no
-#GatewayPorts no
+GatewayPorts no
 #X11Forwarding no
 #X11DisplayOffset 10
 #X11UseLocalhost yes
