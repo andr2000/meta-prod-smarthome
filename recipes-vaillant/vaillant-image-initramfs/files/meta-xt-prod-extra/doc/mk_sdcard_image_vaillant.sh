@@ -9,6 +9,7 @@ usage()
 	echo "	-p image-folder	Yocto deploy folder where artifacts live"
 	echo "	-d image-file	Output image file or physical device"
 	echo "	-s image-size	Optional, image size in GB"
+	echo "	-k ssh-folder	Optional, path to pre-generated ssh keys/authorized_keys"
 
 	exit 1
 }
@@ -332,6 +333,7 @@ unpack_secret_gen_keys()
 {
 	local loop_base=$2
 	local img_output_file=$3
+	local ssh_keys=$4
 	local part=$PART_SECRET
 
 	mount_part $loop_base $img_output_file $part $MOUNT_POINT
@@ -340,22 +342,28 @@ unpack_secret_gen_keys()
 	mv ${MOUNT_POINT}/mnt/secret/* ${MOUNT_POINT}/
 	rm -rf ${MOUNT_POINT}/mnt
 
-	print_step "Generating ssh keys"
+	print_step "Installing ssh keys"
 
 	local ssh_dir="${MOUNT_POINT}/ssh"
 	mkdir "$ssh_dir" || true
 
-	echo "Generating ssh RSA key..."
-	generate_key $ssh_dir/ssh_host_rsa_key rsa
+	if [ -z "${ARG_SSH_KEYS_PATH}" ]; then
 
-	echo "Generating ssh ECDSA key..."
-	generate_key $ssh_dir/ssh_host_ecdsa_key ecdsa
+		echo "Generating ssh RSA key..."
+		generate_key $ssh_dir/ssh_host_rsa_key rsa
 
-	echo "Generating ssh DSA key..."
-	generate_key $ssh_dir/ssh_host_dsa_key dsa
+		echo "Generating ssh ECDSA key..."
+		generate_key $ssh_dir/ssh_host_ecdsa_key ecdsa
 
-	echo "Generating ssh ED25519 key..."
-	generate_key $ssh_dir/ssh_host_ed25519_key ed25519
+		echo "Generating ssh DSA key..."
+		generate_key $ssh_dir/ssh_host_dsa_key dsa
+
+		echo "Generating ssh ED25519 key..."
+		generate_key $ssh_dir/ssh_host_ed25519_key ed25519
+	else
+		echo "Using keys at $ssh_keys"
+		cp -rf $ssh_keys/* $ssh_dir/
+	fi
 
 	umount_part $loop_base $part
 }
@@ -387,11 +395,12 @@ unpack_image()
 	local db_base_folder=$1
 	local loop_dev=$2
 	local img_output_file=$3
+	local ssh_keys=$4
 
 	unpack_boot $db_base_folder $loop_dev $img_output_file
 	unpack_overlay $db_base_folder $loop_dev $img_output_file
 	unpack_secret $db_base_folder $loop_dev $img_output_file
-	unpack_secret_gen_keys $db_base_folder $loop_dev $img_output_file
+	unpack_secret_gen_keys $db_base_folder $loop_dev $img_output_file $ssh_keys
 }
 
 ###############################################################################
@@ -403,6 +412,7 @@ make_image()
 	local db_base_folder=$1
 	local img_output_file=$2
 	local image_sg_gb=${3:-5}
+	local ssh_keys=${4:-}
 	local loop_dev=`losetup --find`
 
 	print_step "Preparing image at ${img_output_file}"
@@ -417,7 +427,7 @@ make_image()
 	inflate_image $img_output_file $image_sg_gb
 	partition_image $img_output_file
 	mkfs_image $img_output_file $loop_dev
-	unpack_image $db_base_folder $loop_dev $img_output_file
+	unpack_image $db_base_folder $loop_dev $img_output_file $ssh_keys
 
 	sync
 	losetup -d $loop_dev || true
@@ -426,13 +436,15 @@ make_image()
 
 print_step "Parsing input parameters"
 
-while getopts ":p:d:s:u:" opt; do
+while getopts ":p:d:s:u:k:" opt; do
 	case $opt in
 		p) ARG_DEPLOY_PATH="$OPTARG"
 		;;
 		d) ARG_DEPLOY_DEV="$OPTARG"
 		;;
 		s) ARG_IMG_SIZE_GB="$OPTARG"
+		;;
+		k) ARG_SSH_KEYS_PATH="$OPTARG"
 		;;
 		\?) echo "Invalid option -$OPTARG" >&2
 		exit 1
@@ -450,8 +462,14 @@ if [ -z "${ARG_DEPLOY_DEV}" ]; then
 	usage
 fi
 
+if [ -z "${ARG_SSH_KEYS_PATH}" ]; then
+	echo "No path with ssh keys/authorized_keys passed with -k option"
+	usage
+fi
+
 echo "Using deploy path: \"$ARG_DEPLOY_PATH\""
 echo "Using device     : \"$ARG_DEPLOY_DEV\""
+echo "Using SSH keys at: \"$ARG_SSH_KEYS_PATH\""
 
-make_image $ARG_DEPLOY_PATH $ARG_DEPLOY_DEV $ARG_IMG_SIZE_GB
+make_image $ARG_DEPLOY_PATH $ARG_DEPLOY_DEV $ARG_IMG_SIZE_GB $ARG_SSH_KEYS_PATH
 
