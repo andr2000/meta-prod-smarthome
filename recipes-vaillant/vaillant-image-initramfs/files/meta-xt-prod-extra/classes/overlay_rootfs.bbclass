@@ -53,6 +53,8 @@ do_rootfs_pack_overlay () {
 
     # Remove previous overlay cpio.gz archives if any
     find ${DEPLOY_DIR_IMAGE}/ -name "*overlay*" -type f -delete || true
+    # Create working directory for overlyafs so it can be mounted from fstab
+    mkdir workdir
     # Now pack into the archive
     find . | cpio --quiet -R 0:0 -H newc -o | gzip -9 -n > ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX_OVL}.cpio.gz
     chmod 0644 ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX_OVL}.cpio.gz
