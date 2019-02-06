@@ -345,9 +345,9 @@ unpack_secret_gen_keys()
 	print_step "Installing ssh keys"
 
 	local ssh_dir="${MOUNT_POINT}/ssh"
-	mkdir "$ssh_dir" || true
+	mkdir -p "$ssh_dir" || true
 
-	if [ -z "${ARG_SSH_KEYS_PATH}" ]; then
+	if [ -z "${ssh_keys}" ]; then
 
 		echo "Generating ssh RSA key..."
 		generate_key $ssh_dir/ssh_host_rsa_key rsa
@@ -471,5 +471,5 @@ echo "Using deploy path: \"$ARG_DEPLOY_PATH\""
 echo "Using device     : \"$ARG_DEPLOY_DEV\""
 echo "Using SSH keys at: \"$ARG_SSH_KEYS_PATH\""
 
-make_image $ARG_DEPLOY_PATH $ARG_DEPLOY_DEV $ARG_IMG_SIZE_GB $ARG_SSH_KEYS_PATH
+make_image "$ARG_DEPLOY_PATH" "$ARG_DEPLOY_DEV" "$ARG_IMG_SIZE_GB" "$ARG_SSH_KEYS_PATH"
 
