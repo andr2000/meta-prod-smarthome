@@ -28,7 +28,6 @@ WIFI_SUPPORT = " \
     crda \
     iw \
     wpa-supplicant \
-    wmt \
 "
 
 DEV_EXTRAS = " \
@@ -55,7 +54,6 @@ EXTRA_TOOLS_INSTALL = " \
 "
 
 IMAGE_INSTALL += " \
-    mtk-prebuilts \
     ${CORE_OS} \
     ${DEV_EXTRAS} \
     ${EXTRA_TOOLS_INSTALL} \
