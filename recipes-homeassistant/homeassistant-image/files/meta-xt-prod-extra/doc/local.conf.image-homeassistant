@@ -1,0 +1,8 @@
+require ${TOPDIR}/../meta-xt-rpi-common/inc/local.conf.rpi-common.inc
+
+ENABLE_RPI3_SERIAL_CONSOLE = "1"
+SERIAL_CONSOLE = "115200 ttyAMA0"
+
+# N.B. Keep empty line below so when we add to this file we append
+# after the last line here and not try to append it
+
