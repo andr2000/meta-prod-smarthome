@@ -23,14 +23,14 @@ S = "${WORKDIR}"
 do_install() {
     install -d ${D}${sysconfdir}/init.d
     install -m 0755 ${S}/${PN} ${D}${sysconfdir}/init.d/${PN}
-    sed -i "s#VAILLANT_MNT_SECRET#${VAILLANT_MNT_SECRET}#g" ${D}${sysconfdir}/init.d/${PN}
+    sed -i "s#SMARTHOME_RPI_MNT_SECRET#${SMARTHOME_RPI_MNT_SECRET}#g" ${D}${sysconfdir}/init.d/${PN}
 
-    install -d ${D}${VAILLANT_MNT_SECRET}/${PN}
-    install -m 0755 ${S}/boot_count.sh ${D}${VAILLANT_MNT_SECRET}/${PN}/
-    sed -i "s#VAILLANT_MNT_DATA#${VAILLANT_MNT_DATA}#g" ${D}${VAILLANT_MNT_SECRET}/${PN}/boot_count.sh
+    install -d ${D}${SMARTHOME_RPI_MNT_SECRET}/${PN}
+    install -m 0755 ${S}/boot_count.sh ${D}${SMARTHOME_RPI_MNT_SECRET}/${PN}/
+    sed -i "s#SMARTHOME_RPI_MNT_DATA#${SMARTHOME_RPI_MNT_DATA}#g" ${D}${SMARTHOME_RPI_MNT_SECRET}/${PN}/boot_count.sh
 }
 
 FILES_${PN} = " \
     ${sysconfdir}/init.d \
-    ${VAILLANT_MNT_SECRET}/${PN}/* \
+    ${SMARTHOME_RPI_MNT_SECRET}/${PN}/* \
 "

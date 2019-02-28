@@ -1,14 +1,14 @@
-XT_VALLIANT_MACHINE ??= "raspberrypi0-wifi"
+XT_RPI_MACHINE ??= "raspberrypi0-wifi"
 
 add_to_local_conf() {
     local local_conf="${S}/build/conf/local.conf"
 
     cd ${S}
 
-    base_update_conf_value ${local_conf} MACHINE "${XT_VALLIANT_MACHINE}"
+    base_update_conf_value ${local_conf} MACHINE "${XT_RPI_MACHINE}"
 
     # Get the root password from the local conf
-    base_update_conf_value ${local_conf} VAILLANT_ROOT_PWD "${VAILLANT_ROOT_PWD}"
+    base_update_conf_value ${local_conf} SMARTHOME_ROOT_PWD "${SMARTHOME_ROOT_PWD}"
 
     # Get telemetry WiFi settings
     base_update_conf_value ${local_conf} SMARTHOME_TELEMETRY_SSID "${SMARTHOME_TELEMETRY_SSID}"

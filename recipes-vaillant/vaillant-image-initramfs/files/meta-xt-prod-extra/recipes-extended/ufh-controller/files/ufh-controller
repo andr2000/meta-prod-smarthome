@@ -2,8 +2,8 @@
 # Config file for ufh-controller service.
 
 # Make it possible to override the configuration
-if test -f VAILLANT_MNT_SECRET/etc/default/ufh-controller; then
-	. VAILLANT_MNT_SECRET/etc/default/ufh-controller
+if test -f SMARTHOME_RPI_MNT_SECRET/etc/default/ufh-controller; then
+	. SMARTHOME_RPI_MNT_SECRET/etc/default/ufh-controller
 	return
 fi
 

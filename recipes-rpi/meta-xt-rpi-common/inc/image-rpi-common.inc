@@ -81,9 +81,9 @@ ROOTFS_POSTPROCESS_COMMAND += " \
  "
 
 create_mnt_points() {
-    mkdir -p ${IMAGE_ROOTFS}${VAILLANT_MNT_OVERLAY}
-    mkdir -p ${IMAGE_ROOTFS}${VAILLANT_MNT_SECRET}
-    mkdir -p ${IMAGE_ROOTFS}${VAILLANT_MNT_DATA}
+    mkdir -p ${IMAGE_ROOTFS}${SMARTHOME_RPI_MNT_OVERLAY}
+    mkdir -p ${IMAGE_ROOTFS}${SMARTHOME_RPI_MNT_SECRET}
+    mkdir -p ${IMAGE_ROOTFS}${SMARTHOME_RPI_MNT_DATA}
 }
 
 IMAGE_PREPROCESS_COMMAND += " create_mnt_points; "

@@ -21,10 +21,10 @@ Protocol 2
 # HostKey for protocol version 1
 #HostKey /etc/ssh/ssh_host_key
 # HostKeys for protocol version 2
-HostKey VAILLANT_MNT_SECRET/ssh/ssh_host_rsa_key
-HostKey VAILLANT_MNT_SECRET/ssh/ssh_host_dsa_key
-HostKey VAILLANT_MNT_SECRET/ssh/ssh_host_ecdsa_key
-HostKey VAILLANT_MNT_SECRET/ssh/ssh_host_ed25519_key
+HostKey SMARTHOME_RPI_MNT_SECRET/ssh/ssh_host_rsa_key
+HostKey SMARTHOME_RPI_MNT_SECRET/ssh/ssh_host_dsa_key
+HostKey SMARTHOME_RPI_MNT_SECRET/ssh/ssh_host_ecdsa_key
+HostKey SMARTHOME_RPI_MNT_SECRET/ssh/ssh_host_ed25519_key
 
 # Lifetime and size of ephemeral version 1 server key
 #KeyRegenerationInterval 1h
@@ -49,7 +49,7 @@ PermitRootLogin yes
 #RSAAuthentication yes
 #PubkeyAuthentication yes
 
-AuthorizedKeysFile VAILLANT_MNT_SECRET/ssh/%u/authorized_keys
+AuthorizedKeysFile SMARTHOME_RPI_MNT_SECRET/ssh/%u/authorized_keys
 
 #AuthorizedPrincipalsFile none
 

@@ -45,4 +45,4 @@ XT_BB_LOCAL_CONF_FILE = "meta-xt-prod-extra/doc/local.conf.image-minimal-initram
 
 XT_BB_IMAGE_TARGET = "core-image-vaillant-initramfs"
 
-XT_VALLIANT_MACHINE ?= "raspberrypi0-wifi"
+XT_RPI_MACHINE ?= "raspberrypi0-wifi"

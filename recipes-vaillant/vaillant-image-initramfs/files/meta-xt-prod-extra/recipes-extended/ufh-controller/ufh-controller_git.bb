@@ -39,21 +39,21 @@ INITSCRIPT_NAME = "ufh-controller"
 INITSCRIPT_PARAMS = "defaults 99"
 
 FILES_${PN} += " \
-    ${VAILLANT_MNT_SECRET}${sysconfdir}/* \
+    ${SMARTHOME_RPI_MNT_SECRET}${sysconfdir}/* \
     ${PYTHON_SITEPACKAGES_DIR}/* \
 "
 
 do_install_append() {
     install -d ${D}${sysconfdir}/default
     install -m 0744 ${S}/../ufh-controller ${D}${sysconfdir}/default/ufh-controller
-    sed -i "s#VAILLANT_MNT_SECRET#${VAILLANT_MNT_SECRET}#g" ${D}${sysconfdir}/default/ufh-controller
+    sed -i "s#SMARTHOME_RPI_MNT_SECRET#${SMARTHOME_RPI_MNT_SECRET}#g" ${D}${sysconfdir}/default/ufh-controller
 
     install -d ${D}${sysconfdir}/ufh-controller
     local CONF_FILE=${D}${sysconfdir}/ufh-controller/ufh-controller.conf
     install -m 0744 ${S}/../ufh-controller.conf ${CONF_FILE}
 
-    sed -i "s#VAILLANT_MNT_SECRET#${VAILLANT_MNT_SECRET}#g" ${CONF_FILE}
-    sed -i "s#VAILLANT_MNT_DATA#${VAILLANT_MNT_DATA}#g" ${CONF_FILE}
+    sed -i "s#SMARTHOME_RPI_MNT_SECRET#${SMARTHOME_RPI_MNT_SECRET}#g" ${CONF_FILE}
+    sed -i "s#SMARTHOME_RPI_MNT_DATA#${SMARTHOME_RPI_MNT_DATA}#g" ${CONF_FILE}
     sed -i "s#TELEGRAM_BOT_TOKEN#${TELEGRAM_BOT_TOKEN}#g" ${CONF_FILE}
     sed -i "s#TELEGRAM_CHAT_ID#${TELEGRAM_CHAT_ID}#g" ${CONF_FILE}
 

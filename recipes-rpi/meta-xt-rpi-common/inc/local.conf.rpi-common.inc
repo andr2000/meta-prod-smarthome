@@ -50,15 +50,15 @@ SDKMACHINE = "x86_64"
 # for no root passwd uncomment the following and comment the two extra user lines
 #EXTRA_IMAGE_FEATURES = "debug-tweaks"
 
-# set root password to whatever is requested via VALLIANT_ROOT_PWD or root
-VAILLANT_ROOT_PWD ?= "root"
+# set root password to whatever is requested via SMARTHOME_ROOT_PWD or root
+SMARTHOME_ROOT_PWD ?= "root"
 INHERIT += "extrausers"
-EXTRA_USERS_PARAMS = "usermod -P ${VAILLANT_ROOT_PWD} root; "
+EXTRA_USERS_PARAMS = "usermod -P ${SMARTHOME_ROOT_PWD} root; "
 
 # Mount points
-VAILLANT_MNT_DATA ?= "/mnt/data"
-VAILLANT_MNT_SECRET ?= "/mnt/secret"
-VAILLANT_MNT_OVERLAY ?= "/mnt/overlay"
+SMARTHOME_RPI_MNT_DATA ?= "/mnt/data"
+SMARTHOME_RPI_MNT_SECRET ?= "/mnt/secret"
+SMARTHOME_RPI_MNT_OVERLAY ?= "/mnt/overlay"
 
 SMARTHOME_TELEMETRY_SSID ?= "tele_wrong_ssid"
 SMARTHOME_TELEMETRY_PWD ?= "tele_wrong_pwd"

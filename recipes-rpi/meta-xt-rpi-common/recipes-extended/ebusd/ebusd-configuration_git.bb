@@ -13,7 +13,7 @@ SRCREV = "${AUTOREV}"
 SRC_URI = "git://github.com/andr2000/ebusd-configuration.git;protocol=https;branch=master"
 
 FILES_${PN} += "\
-    ${VAILLANT_MNT_SECRET}${sysconfdir}/* \
+    ${SMARTHOME_RPI_MNT_SECRET}${sysconfdir}/* \
     ${sysconfdir}/* \
 "
 
@@ -23,6 +23,6 @@ do_install_append() {
     cp -r ${S}/ebusd-2.1.x/* ${D}${sysconfdir}/ebusd/
 
     # ...and also a working copy in /mnt/secret
-    install -d ${D}${VAILLANT_MNT_SECRET}/${sysconfdir}/ebusd
-    cp -r ${S}/ebusd-2.1.x/* ${D}${VAILLANT_MNT_SECRET}/${sysconfdir}/ebusd/
+    install -d ${D}${SMARTHOME_RPI_MNT_SECRET}/${sysconfdir}/ebusd
+    cp -r ${S}/ebusd-2.1.x/* ${D}${SMARTHOME_RPI_MNT_SECRET}/${sysconfdir}/ebusd/
 }

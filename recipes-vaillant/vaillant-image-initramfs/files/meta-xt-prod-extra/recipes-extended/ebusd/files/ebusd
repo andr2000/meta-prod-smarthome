@@ -1,8 +1,8 @@
 # /etc/default/ebusd:
 # config file for ebusd service.
 
-if test -f VAILLANT_MNT_SECRET/etc/default/ebusd; then
-	. VAILLANT_MNT_SECRET/etc/default/ebusd
+if test -f SMARTHOME_RPI_MNT_SECRET/etc/default/ebusd; then
+	. SMARTHOME_RPI_MNT_SECRET/etc/default/ebusd
 	return
 fi
 

@@ -7,12 +7,12 @@ ROOTFS_POSTPROCESS_COMMAND += "do_rootfs_pack_secret;"
 do_rootfs_pack_secret () {
     cd ${IMAGE_ROOTFS}
 
-    if [ -d ".$VAILLANT_MNT_SECRET" ]; then
-        # Pack ${VAILLANT_MNT_SECRET} as an additional image and remove from initramfs
-        find .${VAILLANT_MNT_SECRET} | cpio --quiet -R 0:0 -H newc -o | gzip -9 -n > ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}-secret.cpio.gz
+    if [ -d ".$SMARTHOME_RPI_MNT_SECRET" ]; then
+        # Pack ${SMARTHOME_RPI_MNT_SECRET} as an additional image and remove from rootfs
+        find .${SMARTHOME_RPI_MNT_SECRET} | cpio --quiet -R 0:0 -H newc -o | gzip -9 -n > ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}-secret.cpio.gz
         rm -rf ${IMAGE_ROOTFS}/../rootfs-secret
         mkdir ${IMAGE_ROOTFS}/../rootfs-secret
-        mv .${VAILLANT_MNT_SECRET}/* ${IMAGE_ROOTFS}/../rootfs-secret
+        mv .${SMARTHOME_RPI_MNT_SECRET}/* ${IMAGE_ROOTFS}/../rootfs-secret
         ln -sfr ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}-secret.cpio.gz ${DEPLOY_DIR_IMAGE}/rootfs-secret.cpio.gz
     fi
 }
