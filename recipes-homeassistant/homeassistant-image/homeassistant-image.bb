@@ -46,4 +46,4 @@ XT_BB_LOCAL_CONF_FILE = "meta-xt-prod-extra/doc/local.conf.image-homeassistant"
 
 XT_BB_IMAGE_TARGET = "core-image-homeassistant"
 
-XT_RPI_MACHINE ?= "raspberrypi3-64"
+XT_RPI_MACHINE ?= "raspberrypi3"
