@@ -7,8 +7,6 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI = "\
     file://overlay_mount.sh \
     file://overlay_unpack.sh \
-    file://vaillant_read_setmode.sh \
-    file://vaillant_test_cmds.sh \
 "
 
 S = "${WORKDIR}"
@@ -23,6 +21,4 @@ do_install() {
     install -d ${D}/andr2000/
     install -m 0744 ${WORKDIR}/overlay_mount.sh ${D}/andr2000/
     install -m 0744 ${WORKDIR}/overlay_unpack.sh ${D}/andr2000/
-    install -m 0744 ${WORKDIR}/vaillant_read_setmode.sh ${D}/andr2000/
-    install -m 0744 ${WORKDIR}/vaillant_test_cmds.sh ${D}/andr2000/
 }

@@ -1,0 +1,37 @@
+From b6c10cdbed0752b1610f9025d5819dcb9d6f0ec6 Mon Sep 17 00:00:00 2001
+From: Oleksandr Andrushchenko <andr2000@gmail.com>
+Date: Fri, 16 Nov 2018 11:37:30 +0200
+Subject: [PATCH] Use init.d/functions for non LSB distributions
+
+Non-LSB distributions, such as build with Yocto, may not
+have LSB init-functions, but provide init.d/functions.
+Check if this is the case and use of so.
+
+Signed-off-by: Oleksandr Andrushchenko <andr2000@gmail.com>
+---
+ contrib/debian/init.d/ebusd | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/contrib/debian/init.d/ebusd b/contrib/debian/init.d/ebusd
+index 356fd1f..e356f16 100755
+--- a/contrib/debian/init.d/ebusd
++++ b/contrib/debian/init.d/ebusd
+@@ -13,7 +13,14 @@ DAEMON=/usr/bin/ebusd
+ PIDFILE_PREFIX=/var/run/ebusd
+ PIDFILE_SUFFIX=.pid
+ 
+-. /lib/lsb/init-functions
++if test -f /lib/lsb/init-functions; then
++	. /lib/lsb/init-functions
++else
++	. /etc/init.d/functions
++
++	log_daemon_msg() { logger "$@"; }
++	log_end_msg() { [ $1 -eq 0 ] && RES=OK; logger ${RES:=FAIL}; }
++fi
+ [ -r /etc/default/ebusd ] && . /etc/default/ebusd
+ 
+ if [ ! -x $DAEMON ]; then
+-- 
+2.19.1
+

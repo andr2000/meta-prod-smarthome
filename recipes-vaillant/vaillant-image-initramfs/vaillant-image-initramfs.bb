@@ -5,11 +5,15 @@ LICENSE = "MIT"
 inherit build_yocto
 inherit xt_quirks
 
+require ../../recipes-rpi/inc/image-rpi-common.inc
+
 S = "${WORKDIR}/repo"
 
 SRCREV = "${AUTOREV}"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/../../recipes-rpi:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/../../recipes-rpi/patches:"
 FILESEXTRAPATHS_prepend := "${THISDIR}/../../machine:"
 
 ################################################################################
@@ -26,41 +30,19 @@ SRC_URI = "\
 # these will be populated into the inner build system on do_unpack_xt_extras
 XT_QUIRK_UNPACK_SRC_URI += "\
     file://meta-xt-prod-extra;subdir=repo \
+    file://meta-xt-rpi-common;subdir=repo \
     file://poky;subdir=repo \
 "
 
 # these layers will be added to bblayers.conf on do_configure
 XT_QUIRK_BB_ADD_LAYER += "\
+    meta-xt-rpi-common \
     meta-xt-prod-extra \
 "
 
-XT_BB_LAYERS_FILE = "meta-xt-prod-extra/doc/bblayers.conf.image-minimal-initramfs"
+XT_BB_LAYERS_FILE = "meta-xt-rpi-common/inc/bblayers.conf.rpi-common"
 XT_BB_LOCAL_CONF_FILE = "meta-xt-prod-extra/doc/local.conf.image-minimal-initramfs"
 
 XT_BB_IMAGE_TARGET = "core-image-vaillant-initramfs"
 
 XT_VALLIANT_MACHINE ?= "raspberrypi0-wifi"
-
-add_to_local_conf() {
-    local local_conf="${S}/build/conf/local.conf"
-
-    cd ${S}
-
-    # This image is for Raspberry Pi Zero W?
-    base_update_conf_value ${local_conf} MACHINE "${XT_VALLIANT_MACHINE}"
-
-    # Get the root password from the local conf
-    base_update_conf_value ${local_conf} VAILLANT_ROOT_PWD "${VAILLANT_ROOT_PWD}"
-
-    # Get telemetry WiFi settings
-    base_update_conf_value ${local_conf} SMARTHOME_TELEMETRY_SSID "${SMARTHOME_TELEMETRY_SSID}"
-    base_update_conf_value ${local_conf} SMARTHOME_TELEMETRY_PWD "${SMARTHOME_TELEMETRY_PWD}"
-
-    # Get telegram settings
-    base_update_conf_value ${local_conf} TELEGRAM_BOT_TOKEN "${TELEGRAM_BOT_TOKEN}"
-    base_update_conf_value ${local_conf} TELEGRAM_CHAT_ID "${TELEGRAM_CHAT_ID}"
-}
-
-python do_configure_append() {
-    bb.build.exec_func("add_to_local_conf", d)
-}
