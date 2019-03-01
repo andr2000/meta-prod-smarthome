@@ -1,4 +1,5 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+set -e
 
 MOUNT_POINT="/tmp/mntpoint"
 CUR_STEP=1
