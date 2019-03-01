@@ -93,7 +93,7 @@ do_rootfs[nostamp] = "1"
 
 install_mk_sdcard_script() {
     local LAYERDIR=${TOPDIR}/../meta-xt-prod-extra
-    install -m 0755 ${TOPDIR}/../meta-xt-rpi-common/doc/mk_sdcard_image_vaillant.sh ${DEPLOY_DIR}/
+    install -m 0755 ${TOPDIR}/../meta-xt-rpi-common/doc/mk_sdcard_image_rpi.sh ${DEPLOY_DIR}/
 }
 
 do_image_complete_append () {
