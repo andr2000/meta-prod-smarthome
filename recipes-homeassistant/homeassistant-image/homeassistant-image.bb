@@ -44,6 +44,6 @@ XT_QUIRK_BB_ADD_LAYER += "\
 XT_BB_LAYERS_FILE = "meta-xt-rpi-common/inc/bblayers.conf.rpi-common"
 XT_BB_LOCAL_CONF_FILE = "meta-xt-prod-extra/doc/local.conf.image-homeassistant"
 
-XT_BB_IMAGE_TARGET = "core-image-homeassistant"
+XT_BB_IMAGE_TARGET = "core-image-homeassist"
 
 XT_RPI_MACHINE ?= "raspberrypi3"
