@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
+IMAGE_FLAVOURS="vaillant homeassist"
+KERNEL_IMAGETYPE="zImage"
+
 MOUNT_POINT="/tmp/mntpoint"
 CUR_STEP=1
 
@@ -22,6 +25,42 @@ print_step()
 	echo "Step $CUR_STEP: $caption"
 	echo "###############################################################################"
 	((CUR_STEP++))
+}
+
+###############################################################################
+# Machine detection
+###############################################################################
+
+detect_flavour()
+{
+	local db_base_folder=$1
+
+	print_step "Detecting machine and image flavour"
+
+	local image_flavour=""
+	for f in $IMAGE_FLAVOURS ; do
+		image_flavour=`find $db_base_folder \( -iname \*cpio.gz -o -iname \*tar.bz2 \) -type f -exec basename {} \; | grep $f` || true
+		if [ ! -z "$image_flavour" ]; then
+			export IMAGE_FLAVOUR=$f
+			break
+		fi
+	done
+	if [ -z "$IMAGE_FLAVOUR" ]; then
+		echo "Cannot detect image flavour out of $IMAGE_FLAVOURS"
+		usage
+	fi
+	echo "Image flavour is $IMAGE_FLAVOUR"
+
+	local Image=`find $db_base_folder -name ${KERNEL_IMAGETYPE}`
+	local image_dest=`readlink $Image`
+	local machine=`echo $image_dest | sed 's/^.*\(raspberry.*\).*$/\1/' | sed -e 's/\([^\.]*\).*/\1/;s/-[0-9]*$//'`
+	if [ -z "$machine" ]; then
+		echo "Cannot detect MACHINE type"
+		usage
+	fi
+	export MACHINE=$machine
+
+	echo "Machine is $MACHINE"
 }
 
 ###############################################################################
@@ -457,6 +496,8 @@ if [ -z "${ARG_DEPLOY_PATH}" ]; then
 	echo "No path to deploy directory passed with -p option"
 	usage
 fi
+
+detect_flavour "$ARG_DEPLOY_PATH"
 
 if [ -z "${ARG_DEPLOY_DEV}" ]; then
 	echo "No device/file name passed with -d option"
