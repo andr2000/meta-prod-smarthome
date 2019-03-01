@@ -484,7 +484,9 @@ while getopts ":p:d:s:u:k:" opt; do
 		;;
 		s) ARG_IMG_SIZE_GB="$OPTARG"
 		;;
-		k) ARG_SSH_KEYS_PATH="$OPTARG"
+		k)
+			ARG_SSH_KEYS_PATH="$OPTARG"
+			HAVE_ARG_SSH_KEYS=1
 		;;
 		\?) echo "Invalid option -$OPTARG" >&2
 		exit 1
@@ -504,7 +506,7 @@ if [ -z "${ARG_DEPLOY_DEV}" ]; then
 	usage
 fi
 
-if [ -z "${ARG_SSH_KEYS_PATH}" ]; then
+if [ "$HAVE_ARG_SSH_KEYS" = 1 ] && [ -z "${ARG_SSH_KEYS_PATH}" ]; then
 	echo "No path with ssh keys/authorized_keys passed with -k option"
 	usage
 fi
