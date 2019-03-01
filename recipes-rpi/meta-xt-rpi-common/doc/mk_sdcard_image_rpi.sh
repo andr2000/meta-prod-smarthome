@@ -102,10 +102,48 @@ inflate_image()
 ###############################################################################
 # Partition image
 ###############################################################################
-export PART_BOOT="1"
-export PART_OVERLAY="2"
-export PART_SECRET="3"
-export PART_DATA="4"
+define_partitions()
+{
+	PART_BOOT_START=1
+	PART_BOOT_END=$((PART_BOOT_START+256))
+	PART_BOOT_LABEL=boot
+	PART_BOOT=1
+	# Logical partitions start after the primary ones (4 for MSDOS),
+	# so the first logical will be /dev/XXXp5
+	PART_OVERLAY=5
+	PART_SECRET=6
+	PART_DATA=7
+
+	case $IMAGE_FLAVOUR in
+		vaillant)
+			PART_OVERLAY_START=$PART_BOOT_END
+		;;
+		homeassist)
+			PART_ROOTFS=2
+
+			PART_ROOTFS_START=$PART_BOOT_END
+			PART_ROOTFS_END=$((PART_2_ROOTFS_START+2048))
+			PART_ROOTFS_LABEL=rootfs
+
+			PART_OVERLAY_START=$PART_ROOTFS_END
+		;;
+		*)
+			echo "No partition definition exists for $IMAGE_FLAVOUR"
+			exit 1
+		;;
+	esac
+
+	PART_OVERLAY_END=$((PART_OVERLAY_START+1024))
+	PART_OVERLAY_LABEL=overlay
+
+	PART_SECRET_START=$PART_OVERLAY_END
+	PART_SECRET_END=$((PART_SECRET_START+256))
+	PART_SECRET_LABEL=secret
+
+	PART_DATA_START=$PART_SECRET_END
+	PART_DATA_LABEL=data
+}
+
 partition_image()
 {
 	print_step "Make partitions"
@@ -113,14 +151,18 @@ partition_image()
 	parted -s $1 mklabel msdos
 
 	# Skip first 1MiB
-	# 1. Boot partition
-	# 2. Overlay partition
-	# 3. Secrets's partition
-	# 3. All the reset
-	parted -s $1 mkpart primary fat32 1MiB 256MiB
-	parted -s $1 mkpart primary ext4 256MiB 1280MiB
-	parted -s $1 mkpart primary ext4 1280MiB 1536MiB
-	parted -s $1 mkpart primary ext4 1536MiB 100%
+	parted -s $1 mkpart primary fat32 ${PART_BOOT_START}MB ${PART_BOOT_END}MB
+
+	if [ ! -z ${PART_ROOTFS_START} ]; then
+		parted -s $1 mkpart primary ext4 ${PART_ROOTFS_START}MB ${PART_ROOTFS_END}MB
+	fi
+
+	# All the rest will be logical partitions
+	parted -s $1 mkpart extended ${PART_OVERLAY_START}MB 100%
+
+	parted -s $1 mkpart logical ext4 ${PART_OVERLAY_START}MB ${PART_OVERLAY_END}MB
+	parted -s $1 mkpart logical ext4 ${PART_SECRET_START}MB ${PART_SECRET_END}MB
+	parted -s $1 mkpart logical ext4 ${PART_DATA_START}MB 100%
 
 	partprobe $1
 }
@@ -155,12 +197,20 @@ mkfs_boot()
 	mkfs.vfat -F 32 $loop_dev -n $label
 }
 
+mkfs_rootfs()
+{
+	local img_output_file=$1
+	local loop_dev=$2
+
+	mkfs_one $img_output_file $loop_dev $PART_ROOTFS $PART_ROOTFS_LABEL
+}
+
 mkfs_overlay()
 {
 	local img_output_file=$1
 	local loop_dev=$2
 
-	mkfs_one $img_output_file $loop_dev $PART_OVERLAY overlay
+	mkfs_one $img_output_file $loop_dev $PART_OVERLAY $PART_OVERLAY_LABEL
 }
 
 mkfs_secret()
@@ -168,7 +218,7 @@ mkfs_secret()
 	local img_output_file=$1
 	local loop_dev=$2
 
-	mkfs_one $img_output_file $loop_dev $PART_SECRET secret
+	mkfs_one $img_output_file $loop_dev $PART_SECRET $PART_SECRET_LABEL
 }
 
 mkfs_data()
@@ -176,7 +226,7 @@ mkfs_data()
 	local img_output_file=$1
 	local loop_dev=$2
 
-	mkfs_one $img_output_file $loop_dev $PART_DATA data
+	mkfs_one $img_output_file $loop_dev $PART_DATA $PART_DATA_LABEL
 }
 
 mkfs_image()
@@ -186,6 +236,9 @@ mkfs_image()
 	losetup -P $loop_dev $img_output_file
 
 	mkfs_boot $img_output_file $loop_dev
+	if [ ! -z ${PART_ROOTFS_START} ]; then
+		mkfs_rootfs $img_output_file $loop_dev
+	fi
 	mkfs_overlay $img_output_file $loop_dev
 	mkfs_secret $img_output_file $loop_dev
 	mkfs_data $img_output_file $loop_dev
@@ -220,7 +273,7 @@ umount_part()
 # Unpack
 ###############################################################################
 
-unpack_part_from_tar()
+unpack_part_from_cpio()
 {
 	local db_base_folder=$1
 	local loop_base=$2
@@ -245,13 +298,32 @@ unpack_part_from_tar()
 	umount_part $loop_base $part
 }
 
+unpack_part_from_tar()
+{
+	local db_base_folder=$1
+	local loop_base=$2
+	local img_output_file=$3
+	local part=$4
+	local rootfs_basename=$5
+	local loop_dev=${loop_base}p${part}
+
+	local rootfs=`find $db_base_folder -name "*$MACHINE*$rootfs_basename.tar.bz2"`
+
+	echo "Root filesystem is at $rootfs"
+
+	mount_part $loop_base $img_output_file $part $MOUNT_POINT
+
+	tar --extract --bzip2 --numeric-owner --preserve-permissions --preserve-order --totals \
+		--xattrs-include='*' --directory="${MOUNT_POINT}" --file=$rootfs
+
+	umount_part $loop_base $part
+}
+
 ###############################################################################
 # This comes from meta-rpi
 ###############################################################################
 get_bootfiles()
 {
-	local MACHINE=$1
-
 	case "${MACHINE}" in
 		raspberrypi|raspberrypi0|raspberrypi0-wifi|raspberrypi-cm)
 			DTBS="bcm2708-rpi-0-w.dtb \
@@ -294,29 +366,25 @@ unpack_boot()
 
 	print_step "Unpacking BOOT"
 
-	local valliant_name=`ls $db_base_folder | grep valliant`
-	local valliant_root=$db_base_folder/$valliant_name
+	local Image=`find $db_base_folder -name ${KERNEL_IMAGETYPE}`
+	local initrd=`find $db_base_folder -name initrd`
+	local deploy_dir=`dirname $Image`
 
-	local KERNEL_IMAGETYPE="zImage"
-	local Image=`find $valliant_root -name ${KERNEL_IMAGETYPE}`
-	local initrd=`find $valliant_root -name initrd`
-	local initrd_dest=`readlink $initrd`
-	local deploy_dir=`dirname $initrd`
-	local MACHINE=`echo $initrd_dest | sed -e 's/\([^\.]*\).*/\1/;s/-[0-9]*$//' | sed 's/^.*\(raspberry.*\).*$/\1/'`
+	echo "$IMAGE_FLAVOUR kernel image is at $Image"
+	if [ ! -z ${initrd} ]; then
+		echo "Found initramfs at $initrd"
+	fi
 
-	echo "MACHINE is $MACHINE"
-	echo "Valliant kernel image is at $Image"
-	echo "Valliant initramfs is at $initrd"
-
-	get_bootfiles $MACHINE
+	get_bootfiles
 
 	mount_part $loop_base $img_output_file $part $MOUNT_POINT
 
 	mkdir "${MOUNT_POINT}/overlays" || true
 
-	for f in $Image $initrd ; do
-		cp -L $f "${MOUNT_POINT}/"
-	done
+	cp -L $Image "${MOUNT_POINT}/"
+	if [ ! -z ${initrd} ]; then
+		cp -L $initrd "${MOUNT_POINT}/"
+	fi
 
 	for f in $BOOTLDRFILES ; do
 		cp -L $deploy_dir/bcm2835-bootfiles/$f "${MOUNT_POINT}/"
@@ -408,6 +476,17 @@ unpack_secret_gen_keys()
 	umount_part $loop_base $part
 }
 
+unpack_rootfs()
+{
+	local db_base_folder=$1
+	local loop_dev=$2
+	local img_output_file=$3
+
+	print_step  "Unpacking root file system"
+
+	unpack_part_from_tar $db_base_folder $loop_dev $img_output_file $PART_ROOTFS rootfs
+}
+
 unpack_secret()
 {
 	local db_base_folder=$1
@@ -416,7 +495,7 @@ unpack_secret()
 
 	print_step  "Unpacking secret file system"
 
-	unpack_part_from_tar $db_base_folder $loop_dev $img_output_file $PART_SECRET secret
+	unpack_part_from_cpio $db_base_folder $loop_dev $img_output_file $PART_SECRET secret
 }
 
 unpack_overlay()
@@ -427,7 +506,7 @@ unpack_overlay()
 
 	print_step  "Unpacking overlay file system"
 
-	unpack_part_from_tar $db_base_folder $loop_dev $img_output_file $PART_OVERLAY overlay
+	unpack_part_from_cpio $db_base_folder $loop_dev $img_output_file $PART_OVERLAY overlay
 }
 
 unpack_image()
@@ -438,6 +517,9 @@ unpack_image()
 	local ssh_keys=$4
 
 	unpack_boot $db_base_folder $loop_dev $img_output_file
+	if [ ! -z ${PART_ROOTFS_START} ]; then
+		unpack_rootfs $db_base_folder $loop_dev $img_output_file
+	fi
 	unpack_overlay $db_base_folder $loop_dev $img_output_file
 	unpack_secret $db_base_folder $loop_dev $img_output_file
 	unpack_secret_gen_keys $db_base_folder $loop_dev $img_output_file $ssh_keys
@@ -500,6 +582,7 @@ if [ -z "${ARG_DEPLOY_PATH}" ]; then
 fi
 
 detect_flavour "$ARG_DEPLOY_PATH"
+define_partitions
 
 if [ -z "${ARG_DEPLOY_DEV}" ]; then
 	echo "No device/file name passed with -d option"
