@@ -20,6 +20,7 @@ CORE_OS = " \
     packagegroup-core-boot \
     term-prompt \
     tzdata \
+    cronie \
 "
 WIFI_SUPPORT = " \
     crda \
