@@ -60,6 +60,7 @@ EXTRA_TOOLS_INSTALL = " \
 # into the overlay
 PACKAGE_OVERLAY_ROOTFS_INSTALL += " \
     git \
+    strace \
 "
 
 IMAGE_INSTALL += " \

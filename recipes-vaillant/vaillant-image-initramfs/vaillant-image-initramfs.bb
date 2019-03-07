@@ -13,7 +13,6 @@ SRCREV = "${AUTOREV}"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 FILESEXTRAPATHS_prepend := "${THISDIR}/../../recipes-rpi:"
-FILESEXTRAPATHS_prepend := "${THISDIR}/../../recipes-rpi/patches:"
 FILESEXTRAPATHS_prepend := "${THISDIR}/../../machine:"
 
 ################################################################################
@@ -21,7 +20,6 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/../../machine:"
 ################################################################################
 SRC_URI = "\
     repo://github.com/andr2000/meta-products;protocol=https;branch=master;manifest=vaillant.xml;scmdata=keep \
-    file://0001-Workaround-python3-sqlite3-not-installing.patch;patchdir=poky \
 "
 
 ###############################################################################
