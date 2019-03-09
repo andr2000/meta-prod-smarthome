@@ -4,7 +4,7 @@ require ${TOPDIR}/../meta-xt-rpi-common/inc/image-rpi-common.inc
 
 IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
 
-DEV_EXTRAS = " \
+DEV_EXTRAS += " \
     experimental \
 "
 
