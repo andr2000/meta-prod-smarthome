@@ -3,6 +3,7 @@ require ${TOPDIR}/../meta-xt-rpi-common/inc/local.conf.rpi-common.inc
 VIRTUAL-RUNTIME_init_manager = "sysvinit"
 
 SERIAL_CONSOLE = ""
+SERIAL_CONSOLES = ""
 
 # N.B. Keep empty line below so when we add to this file we append
 # after the last line here and not try to append it
