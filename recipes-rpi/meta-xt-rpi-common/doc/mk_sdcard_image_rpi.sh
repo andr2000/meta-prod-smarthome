@@ -334,6 +334,7 @@ get_bootfiles()
 		raspberrypi2|raspberrypi3|raspberrypi-cm3)
 			DTBS="bcm2709-rpi-2-b.dtb \
 			      bcm2710-rpi-3-b.dtb \
+			      bcm2710-rpi-3-b-plus.dtb \
 			      bcm2710-rpi-cm3.dtb"
 		;;
 		*)
@@ -394,11 +395,9 @@ unpack_boot()
 		cp -L $deploy_dir/$f "${MOUNT_POINT}/"
 	done
 
-	for f in $deploy_dir/${KERNEL_IMAGETYPE}-*.dtbo; do
+	for f in $( ls $deploy_dir/*.dtbo | grep -v -e "-${MACHINE}" ) ; do
 		if [ -L $f ]; then
-			fname="${f##*/}"
-			frename="${fname#${KERNEL_IMAGETYPE}-}"
-			cp "$f" "${MOUNT_POINT}/overlays/$frename"
+			cp "$f" "${MOUNT_POINT}/overlays/"
 		fi
 	done
 
