@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
+set -x
 
 IMAGE_FLAVOURS="vaillant homeassist"
 KERNEL_IMAGETYPE="zImage"
@@ -105,7 +106,7 @@ inflate_image()
 define_partitions()
 {
 	PART_BOOT_START=1
-	PART_BOOT_END=$((PART_BOOT_START+256))
+	PART_BOOT_END=$((PART_BOOT_START+255))
 	PART_BOOT_LABEL=boot
 	PART_BOOT=1
 	# Logical partitions start after the primary ones (4 for MSDOS),
@@ -160,9 +161,9 @@ partition_image()
 	# All the rest will be logical partitions
 	parted -s $1 mkpart extended ${PART_OVERLAY_START}MB 100%
 
-	parted -s $1 mkpart logical ext4 ${PART_OVERLAY_START}MB ${PART_OVERLAY_END}MB
-	parted -s $1 mkpart logical ext4 ${PART_SECRET_START}MB ${PART_SECRET_END}MB
-	parted -s $1 mkpart logical ext4 ${PART_DATA_START}MB 100%
+	parted -s $1 mkpart logical ext4 $((PART_OVERLAY_START+8))MB ${PART_OVERLAY_END}MB
+	parted -s $1 mkpart logical ext4 $((PART_SECRET_START+8))MB ${PART_SECRET_END}MB
+	parted -s $1 mkpart logical ext4 $((PART_DATA_START+8))MB 100%
 
 	partprobe $1
 }
