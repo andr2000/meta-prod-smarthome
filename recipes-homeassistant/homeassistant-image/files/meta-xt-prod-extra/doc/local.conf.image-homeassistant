@@ -2,6 +2,7 @@ require ${TOPDIR}/../meta-xt-rpi-common/inc/local.conf.rpi-common.inc
 
 ENABLE_RPI3_SERIAL_CONSOLE = "1"
 SERIAL_CONSOLE = "115200 ttyAMA0"
+SERIAL_CONSOLES = "115200;ttyAMA0"
 
 DISTRO_FEATURES_append = " systemd"
 VIRTUAL-RUNTIME_init_manager = "systemd"
