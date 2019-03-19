@@ -18,7 +18,6 @@ CORE_OS = " \
     kernel-modules \
     openssh openssh-keygen openssh-sftp-server \
     packagegroup-core-boot \
-    term-prompt \
     tzdata \
     cronie \
 "
