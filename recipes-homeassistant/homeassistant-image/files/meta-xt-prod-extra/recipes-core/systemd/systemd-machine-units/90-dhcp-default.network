@@ -1,0 +1,6 @@
+[Match]
+# Machting eth0 and wlan0
+Name=e* w*
+
+[Network]
+DHCP=yes

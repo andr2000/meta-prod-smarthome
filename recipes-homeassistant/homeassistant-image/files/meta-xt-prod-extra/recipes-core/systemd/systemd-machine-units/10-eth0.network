@@ -1,0 +1,10 @@
+[Match]
+Name=eth0
+
+[Network]
+DHCP=ipv4
+
+[DHCP]
+# This should be higher then for wlan, so only if the wired connection is
+# unplugged then wireless is used, so no connection downtime is observed.
+RouteMetric=10
