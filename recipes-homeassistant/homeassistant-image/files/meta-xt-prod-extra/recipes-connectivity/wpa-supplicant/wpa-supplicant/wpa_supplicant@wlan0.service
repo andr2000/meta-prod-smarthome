@@ -12,4 +12,4 @@ Type=simple
 ExecStart=/usr/sbin/wpa_supplicant -cSMARTHOME_RPI_MNT_SECRET/etc/wpa_supplicant.conf -Dwext -i%I
 
 [Install]
-Alias=multi-user.target.wants/wpa_supplicant-wext@%i.service
+Alias=multi-user.target.wants/wpa_supplicant@%i.service
