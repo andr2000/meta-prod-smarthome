@@ -29,8 +29,8 @@ WIFI_SUPPORT = " \
 "
 
 DEV_EXTRAS = " \
-    ntp \
-    ntp-tickadj \
+    ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "", "ntp", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "", "ntp-tickadj", d)} \
     serialecho  \
     screen \
 "
