@@ -1,7 +1,7 @@
 [Unit]
 Description=WPA supplicant daemon (interface- and wext driver-specific version)
-Requires=sys-subsystem-net-devices-%i.device
-After=sys-subsystem-net-devices-%i.device
+Requires=sys-subsystem-net-devices-%i.device mnt-secret.mount
+After=sys-subsystem-net-devices-%i.device mnt-secret.mount
 Before=network.target
 Wants=network.target
 
