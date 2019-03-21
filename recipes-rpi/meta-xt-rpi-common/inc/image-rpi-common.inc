@@ -20,6 +20,7 @@ CORE_OS = " \
     packagegroup-core-boot \
     tzdata \
     cronie \
+    logrotate \
 "
 WIFI_SUPPORT = " \
     crda \
