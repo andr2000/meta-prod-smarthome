@@ -1,6 +1,6 @@
 #!/bin/bash -e
 URL=https://raw.githubusercontent.com/dhruvvyas90/qemu-rpi-kernel/master/
-KERNEL=kernel-qemu-4.14.50-stretch
+KERNEL=kernel-qemu-4.14.79-stretch
 DTB=versatile-pb.dtb
 
 # This is the kernel that runs under QEMU + VersatilePB
