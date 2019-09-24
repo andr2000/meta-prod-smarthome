@@ -3,8 +3,8 @@
 # which are not mission critical.
 #
 
-ROOTFS_POSTPROCESS_COMMAND += "do_rootfs_pack_secret;"
-do_rootfs_pack_secret () {
+addtask rootfs_deploy_secret after do_image_tar before do_image_wic
+do_rootfs_deploy_secret () {
     cd ${IMAGE_ROOTFS}
 
     if [ -d ".$SMARTHOME_RPI_MNT_SECRET" ]; then
@@ -19,7 +19,7 @@ do_rootfs_pack_secret () {
 
 inherit image
 
-addtask rootfs_create_overlay after do_image_complete before do_build
+addtask rootfs_create_overlay after do_image_tar before do_image_wic
 fakeroot python do_rootfs_create_overlay () {
     pkgs_install = d.getVar("PACKAGE_OVERLAY_ROOTFS_INSTALL") or ""
     if pkgs_install:
@@ -39,7 +39,7 @@ fakeroot python do_rootfs_create_overlay () {
         bb.build.exec_func("do_rootfs", d)
 }
 
-addtask rootfs_pack_overlay after do_rootfs_create_overlay before do_build
+addtask rootfs_pack_overlay after do_image_complete before do_build
 do_rootfs_pack_overlay () {
     cd "${IMAGE_ROOTFS}-overlay"
     # IMAGE_NAME_SUFFIX gets evaluated while generating this script,

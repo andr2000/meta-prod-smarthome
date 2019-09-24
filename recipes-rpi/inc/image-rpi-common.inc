@@ -1,4 +1,10 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/../files:"
+
 XT_RPI_MACHINE ??= "raspberrypi0-wifi"
+
+XT_QUIRK_PATCH_SRC_URI += "\
+    file://0001-wic-Add-partition-type-for-msdos-partition-tables.patch;patchdir=poky \
+"
 
 add_to_local_conf() {
     local local_conf="${S}/build/conf/local.conf"

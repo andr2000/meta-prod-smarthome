@@ -2,7 +2,7 @@ SUMMARY = "Valliant controlling domain"
 
 require ${TOPDIR}/../meta-xt-rpi-common/inc/image-rpi-common.inc
 
-IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
+IMAGE_FSTYPES = "${INITRAMFS_FSTYPES} wic wic.bmap"
 
 DEV_EXTRAS += " \
     experimental \
@@ -35,3 +35,17 @@ make_initrd_symlink() {
 }
 
 IMAGE_POSTPROCESS_COMMAND += " make_initrd_symlink; "
+
+WKS_FILE = "sdimage-vaillant.wks"
+
+# Do not update /etc/fstab
+WIC_CREATE_EXTRA_ARGS_append = " --no-fstab-update"
+
+# Main root file system
+WIC_CREATE_EXTRA_ARGS_append = " --rootfs-dir rootfs_main=${IMAGE_ROOTFS}"
+
+# Overlay file system
+WIC_CREATE_EXTRA_ARGS_append = " --rootfs-dir rootfs_overlay=${IMAGE_ROOTFS}/../rootfs-overlay"
+
+# Secret file system
+WIC_CREATE_EXTRA_ARGS_append = " --rootfs-dir rootfs_secret=${IMAGE_ROOTFS}/../rootfs-secret"
