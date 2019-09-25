@@ -23,6 +23,10 @@ add_to_local_conf() {
     # Get telegram settings
     base_update_conf_value ${local_conf} TELEGRAM_BOT_TOKEN "${TELEGRAM_BOT_TOKEN}"
     base_update_conf_value ${local_conf} TELEGRAM_CHAT_ID "${TELEGRAM_CHAT_ID}"
+
+    # Get location of the secrets if any: everything from this dir will
+    # be installed into ${SMARTHOME_RPI_MNT_SECRET}
+    base_update_conf_value ${local_conf} SMARTHOME_SECRETS_DIR "${SMARTHOME_SECRETS_DIR}"
 }
 
 python do_configure_append() {

@@ -21,6 +21,7 @@ CORE_OS = " \
     tzdata \
     cronie \
     logrotate \
+    secrets \
 "
 WIFI_SUPPORT = " \
     crda \
