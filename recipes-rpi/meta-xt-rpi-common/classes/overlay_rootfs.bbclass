@@ -3,7 +3,7 @@
 # which are not mission critical.
 #
 
-addtask rootfs_deploy_secret after do_image_tar before do_image_wic
+addtask rootfs_deploy_secret after do_image before do_image_wic
 do_rootfs_deploy_secret () {
     cd ${IMAGE_ROOTFS}
 
@@ -19,7 +19,7 @@ do_rootfs_deploy_secret () {
 
 inherit image
 
-addtask rootfs_create_overlay after do_image_tar before do_image_wic
+addtask rootfs_create_overlay after do_image before do_image_wic
 fakeroot python do_rootfs_create_overlay () {
     pkgs_install = d.getVar("PACKAGE_OVERLAY_ROOTFS_INSTALL") or ""
     if pkgs_install:
