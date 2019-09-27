@@ -15,6 +15,10 @@ IMAGE_INSTALL += " \
     ${HOMEASSISTANT_SUPPORT} \
 "
 
+PACKAGE_OVERLAY_ROOTFS_INSTALL += " \
+    rsync \
+"
+
 WKS_FILE = "sdimage-homeassistant.wks"
 
 # Do not update /etc/fstab
