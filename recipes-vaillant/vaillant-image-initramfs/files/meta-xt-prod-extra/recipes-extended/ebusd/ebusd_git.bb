@@ -20,7 +20,6 @@ SRCREV = "${AUTOREV}"
 
 SRC_URI = " \
     git://github.com/john30/ebusd.git;protocol=https;branch=master \
-    file://0001-Use-init.d-functions-for-non-LSB-distributions.patch \
     file://ebusd \
     file://ebusd-real \
 "
