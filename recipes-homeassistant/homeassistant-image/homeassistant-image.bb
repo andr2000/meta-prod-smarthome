@@ -32,6 +32,10 @@ XT_QUIRK_UNPACK_SRC_URI += "\
     file://poky;subdir=repo \
 "
 
+XT_QUIRK_PATCH_SRC_URI += "\
+    file://0001-Force-installing-ntpath.py.patch;patchdir=poky \
+"
+
 # these layers will be added to bblayers.conf on do_configure
 XT_QUIRK_BB_ADD_LAYER += "\
     meta-xt-rpi-common \
