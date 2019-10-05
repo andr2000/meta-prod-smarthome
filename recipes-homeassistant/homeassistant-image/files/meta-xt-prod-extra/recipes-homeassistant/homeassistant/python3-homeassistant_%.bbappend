@@ -1,3 +1,3 @@
-RDEPENDS_${PN} = " \
+RDEPENDS_${PN} += " \
     ${PYTHON_PN}-ebusdpy \
 "
