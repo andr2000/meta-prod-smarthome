@@ -7,6 +7,7 @@ SRC_URI += " \
 FILES_${PN} += "${sysconfdir}/profile.d/history-bind.sh"
 
 MNT_POINT ??= "mmcblk0p"
+MNT_DEV = "${@(d.getVar('MNT_POINT'))[:-1]}"
 
 do_install_append() {
 	install -d ${D}${sysconfdir}/profile.d/
