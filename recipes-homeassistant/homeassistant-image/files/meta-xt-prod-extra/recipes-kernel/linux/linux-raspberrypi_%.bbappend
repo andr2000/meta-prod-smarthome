@@ -1,7 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files/${MACHINE}:"
 
 SRC_URI += " \
-    file://defconfig \
+    file://ikconfig.cfg \
+    file://rtc.cfg \
 "
-
-KBUILD_DEFCONFIG = "defconfig"
