@@ -55,7 +55,11 @@ add_to_local_conf() {
 
     cd ${S}
 
-    base_update_conf_value ${local_conf} HOMEASSISTANT_SECRETS_DIR "${HOMEASSISTANT_SECRETS_DIR}"
+    base_update_conf_value ${local_conf} HOMEASSISTANT_APP_SECRETS_DIR "${HOMEASSISTANT_APP_SECRETS_DIR}"
+
+    # Get location of the secrets if any: everything from this dir will
+    # be installed into ${SMARTHOME_RPI_MNT_SECRET}
+    base_update_conf_value ${local_conf} SMARTHOME_SECRETS_DIR "${HOMEASSISTANT_SECRETS_DIR}"
 }
 
 python do_configure_append() {

@@ -44,3 +44,17 @@ XT_BB_LOCAL_CONF_FILE = "meta-xt-prod-extra/doc/local.conf.image-minimal-initram
 XT_BB_IMAGE_TARGET = "core-image-vaillant-initramfs"
 
 XT_RPI_MACHINE ?= "raspberrypi0-wifi"
+
+add_to_local_conf() {
+    local local_conf="${S}/build/conf/local.conf"
+
+    cd ${S}
+
+    # Get location of the secrets if any: everything from this dir will
+    # be installed into ${SMARTHOME_RPI_MNT_SECRET}
+    base_update_conf_value ${local_conf} SMARTHOME_SECRETS_DIR "${VAILLANT_SECRETS_DIR}"
+}
+
+python do_configure_append() {
+    bb.build.exec_func("add_to_local_conf", d)
+}
