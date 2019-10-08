@@ -6,7 +6,7 @@ XT_QUIRK_PATCH_SRC_URI += "\
     file://0001-wic-Add-partition-type-for-msdos-partition-tables.patch;patchdir=poky \
 "
 
-add_to_local_conf() {
+add_to_local_conf_common() {
     local local_conf="${S}/build/conf/local.conf"
 
     cd ${S}
@@ -30,5 +30,5 @@ add_to_local_conf() {
 }
 
 python do_configure_append() {
-    bb.build.exec_func("add_to_local_conf", d)
+    bb.build.exec_func("add_to_local_conf_common", d)
 }
