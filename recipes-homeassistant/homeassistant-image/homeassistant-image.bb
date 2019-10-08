@@ -49,3 +49,15 @@ XT_BB_LOCAL_CONF_FILE = "meta-xt-prod-extra/doc/local.conf.image-homeassistant"
 XT_BB_IMAGE_TARGET = "core-image-homeassist"
 
 XT_RPI_MACHINE ?= "raspberrypi3"
+
+add_to_local_conf() {
+    local local_conf="${S}/build/conf/local.conf"
+
+    cd ${S}
+
+    base_update_conf_value ${local_conf} HOMEASSISTANT_SECRETS_DIR "${HOMEASSISTANT_SECRETS_DIR}"
+}
+
+python do_configure_append() {
+    bb.build.exec_func("add_to_local_conf", d)
+}
