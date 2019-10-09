@@ -15,7 +15,7 @@ FILES_homeassistant-configuration += "\
 do_install_append() {
     install -d ${D}${HOMEASSISTANT_CONFIG_DIR}
     # copy all including hidden files
-    cp -rf ${WORKDIR}/homeassistant-config/. ${D}${HOMEASSISTANT_CONFIG_DIR}/
+    cp -rf ${S}/homeassistant-config/. ${D}${HOMEASSISTANT_CONFIG_DIR}/
 
     if [ ! -z "${HOMEASSISTANT_APP_SECRETS_DIR}" ]; then
         echo "Using Home Assistant secrets from ${HOMEASSISTANT_APP_SECRETS_DIR}..."
@@ -23,6 +23,7 @@ do_install_append() {
     fi
     # remove git leftovers if any
     rm -rf ${D}/${HOMEASSISTANT_CONFIG_DIR}/.git* || true
+    chown -R ${HOMEASSISTANT_USER}:${HOMEASSISTANT_USER} ${D}/${HOMEASSISTANT_CONFIG_DIR}/
 }
 
 RDEPENDS_${PN} += " \
