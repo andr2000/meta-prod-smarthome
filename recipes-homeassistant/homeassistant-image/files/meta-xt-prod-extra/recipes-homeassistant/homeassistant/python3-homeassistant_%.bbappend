@@ -2,8 +2,9 @@
 HOMEASSISTANT_CONFIG_DIR = "${datadir}/homeassistant"
 
 SRC_URI += "\
-    git://github.com/andr2000/homeassistant-config.git;destsuffix=${WORKDIR}/homeassistant-config;branch=master;rev=master \
+    git://github.com/andr2000/homeassistant-config.git;destsuffix=${S}/homeassistant-config;branch=master;name=ha-config \
 "
+SRCREV_ha-config = "${AUTOREV}"
 
 PACKAGES += "homeassistant-configuration"
 
