@@ -16,6 +16,8 @@ do_install_append() {
     install -d ${D}${HOMEASSISTANT_CONFIG_DIR}
     # copy all including hidden files
     cp -rf ${S}/homeassistant-config/. ${D}${HOMEASSISTANT_CONFIG_DIR}/
+    # Set data partition for the database
+    sed -i -e 's,@SMARTHOME_RPI_MNT_DATA@,${SMARTHOME_RPI_MNT_DATA},g' ${D}${HOMEASSISTANT_CONFIG_DIR}/configuration.yaml
 
     if [ ! -z "${HOMEASSISTANT_APP_SECRETS_DIR}" ]; then
         echo "Using Home Assistant secrets from ${HOMEASSISTANT_APP_SECRETS_DIR}..."
