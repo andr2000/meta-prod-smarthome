@@ -30,6 +30,7 @@ do_install_append() {
 
 RDEPENDS_${PN} += " \
     ${PYTHON_PN}-ebusdpy \
+    ${PYTHON_PN}-python-telegram-bot \
 "
 
 # Because we resize data partition on the first boot we need
