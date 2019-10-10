@@ -31,3 +31,15 @@ do_install_append() {
 RDEPENDS_${PN} += " \
     ${PYTHON_PN}-ebusdpy \
 "
+
+# Because we resize data partition on the first boot we need
+# to create database folder after that is done.
+RDEPENDS_${PN} += "base-files"
+
+pkg_postinst_ontarget_${PN} () {
+    # Get database location and create dir
+    db_url=`grep db_url ${HOMEASSISTANT_CONFIG_DIR}/configuration.yaml`
+    db_path=`echo $db_url | sed -E "s/\s*db_url:\s*'sqlite:\/\/(.*)\/.+'/\1/"`
+    mkdir -p "$db_path"
+    chown ${HOMEASSISTANT_USER}:${HOMEASSISTANT_USER} "$db_path"
+}
