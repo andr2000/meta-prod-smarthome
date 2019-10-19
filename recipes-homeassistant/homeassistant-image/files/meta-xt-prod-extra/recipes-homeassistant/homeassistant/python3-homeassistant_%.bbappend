@@ -5,7 +5,7 @@ HOMEASSISTANT_CONFIG_DIR = "${datadir}/homeassistant"
 S = "${WORKDIR}/git"
 LIC_FILES_CHKSUM = "file://${S}/LICENSE.md;md5=86d3f3a95c324c9479bd8986968f4327"
 PYPI_SRC_URI = "\
-    git://github.com/andr2000/home-assistant.git;branch=dev;name=ha \
+    git://github.com/andr2000/home-assistant.git;branch=master;name=ha \
 "
 SRCREV_ha = "${AUTOREV}"
 
@@ -37,6 +37,7 @@ do_install_append() {
 }
 
 RDEPENDS_${PN} += " \
+    ${PYTHON_PN}-hbmqtt \
     ${PYTHON_PN}-ebusdpy \
     ${PYTHON_PN}-python-telegram-bot \
     ${PYTHON_PN}-restrictedpython \
