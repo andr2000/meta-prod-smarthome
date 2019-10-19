@@ -1,6 +1,14 @@
 # Move HA config
 HOMEASSISTANT_CONFIG_DIR = "${datadir}/homeassistant"
 
+# Use git version, not pypi
+S = "${WORKDIR}/git"
+LIC_FILES_CHKSUM = "file://${S}/LICENSE.md;md5=86d3f3a95c324c9479bd8986968f4327"
+PYPI_SRC_URI = "\
+    git://github.com/andr2000/home-assistant.git;branch=dev;name=ha \
+"
+SRCREV_ha = "${AUTOREV}"
+
 SRC_URI += "\
     git://github.com/andr2000/homeassistant-config.git;destsuffix=${S}/homeassistant-config;branch=master;name=ha-config \
 "
