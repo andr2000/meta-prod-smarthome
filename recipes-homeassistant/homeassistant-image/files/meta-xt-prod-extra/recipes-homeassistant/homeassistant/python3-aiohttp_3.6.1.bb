@@ -7,8 +7,8 @@ inherit pypi setuptools3
 
 SRC_URI += "file://0001-Improve-make-clean-compatibility.patch"
 
-SRC_URI[md5sum] = "ca40144c199a09fc1a141960cf6295f0"
-SRC_URI[sha256sum] = "259ab809ff0727d0e834ac5e8a283dc5e3e0ecc30c4d80b3cd17a4139ce1f326"
+SRC_URI[md5sum] = "a3706ef8dc9128ed98dcb6bfe1c8e116"
+SRC_URI[sha256sum] = "fc55b1fec0e4cc1134ffb09ea3970783ee2906dc5dfd7cd16917913f2cfed65b"
 
 RDEPENDS_${PN} = "\
     ${PYTHON_PN}-attrs (>=17.3.0) \
