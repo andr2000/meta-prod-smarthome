@@ -37,7 +37,6 @@ do_install_append() {
 }
 
 RDEPENDS_${PN} += " \
-    ${PYTHON_PN}-hbmqtt \
     ${PYTHON_PN}-ebusdpy \
     ${PYTHON_PN}-python-telegram-bot \
     ${PYTHON_PN}-restrictedpython \
