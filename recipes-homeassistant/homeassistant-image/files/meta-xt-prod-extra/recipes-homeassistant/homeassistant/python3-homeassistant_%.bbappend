@@ -31,6 +31,7 @@ RDEPENDS_${PN} += " \
     ${PYTHON_PN}-ebusdpy \
     ${PYTHON_PN}-python-telegram-bot \
     ${PYTHON_PN}-restrictedpython \
+    ${PYTHON_PN}-aioesphomeapi \
 "
 
 # Because we resize data partition on the first boot we need
