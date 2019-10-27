@@ -15,6 +15,9 @@ FILES_homeassistant-configuration += "\
     ${HOMEASSISTANT_CONFIG_DIR} \
 "
 
+# Force updating external configuration files
+do_install[nostamp] = "1"
+
 do_install_append() {
     install -d ${D}${HOMEASSISTANT_CONFIG_DIR}
     if [ ! -z "${HOMEASSISTANT_APP_SECRETS_DIR}" ]; then
