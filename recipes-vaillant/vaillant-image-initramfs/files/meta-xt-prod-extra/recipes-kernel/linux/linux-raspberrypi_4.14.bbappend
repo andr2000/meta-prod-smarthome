@@ -3,6 +3,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files/${MACHINE}:"
 SRC_URI += " \
     file://defconfig \
     file://0001-Add-ttyebus-driver-for-Raspberry-Pi-Zero-W.patch \
+    file://0001-Changed-IRQ-for-V4.19.42.patch \
 "
 
 KBUILD_DEFCONFIG = "defconfig"
