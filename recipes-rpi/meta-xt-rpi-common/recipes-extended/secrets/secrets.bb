@@ -61,6 +61,6 @@ do_install() {
         generate_key "$dst/ssh_host_ed25519_key" ed25519
     else
         echo "Using secrets from ${SMARTHOME_SECRETS_DIR}..."
-        cp -rf ${SMARTHOME_SECRETS_DIR}/* ${D}/${SMARTHOME_RPI_MNT_SECRET}/
+        cp -rfL ${SMARTHOME_SECRETS_DIR}/* ${D}/${SMARTHOME_RPI_MNT_SECRET}/
     fi
 }
