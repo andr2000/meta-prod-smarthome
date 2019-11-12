@@ -79,3 +79,5 @@ BBMASK += "meta-openembedded/meta-oe/recipes-connectivity/mosquitto"
 BBMASK += "meta-rpi/recipes-connectivity/mosquitto"
 # We provide our own network configuration
 BBMASK += "meta-rpi/recipes-core/init-ifupdown"
+# Disable Qt from meta-rpi
+BBMASK += "meta-rpi/recipes-qt/"
