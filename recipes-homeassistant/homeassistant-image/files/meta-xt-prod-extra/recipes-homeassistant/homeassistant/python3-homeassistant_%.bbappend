@@ -1,6 +1,3 @@
-# Move HA config
-HOMEASSISTANT_CONFIG_DIR = "${datadir}/homeassistant"
-
 # Use git version, not pypi
 S = "${WORKDIR}/git"
 LIC_FILES_CHKSUM = "file://${S}/LICENSE.md;md5=86d3f3a95c324c9479bd8986968f4327"
