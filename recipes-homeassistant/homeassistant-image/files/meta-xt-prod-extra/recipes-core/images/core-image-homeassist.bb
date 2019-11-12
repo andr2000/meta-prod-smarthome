@@ -18,7 +18,6 @@ IMAGE_INSTALL += " \
 
 PACKAGE_OVERLAY_ROOTFS_INSTALL += " \
     rsync \
-    homeassistant-configuration \
 "
 
 WKS_FILE = "sdimage-homeassistant.wks"

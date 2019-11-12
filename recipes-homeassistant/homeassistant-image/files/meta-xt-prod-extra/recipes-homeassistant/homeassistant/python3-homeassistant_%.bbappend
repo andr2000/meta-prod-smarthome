@@ -6,9 +6,7 @@ PYPI_SRC_URI = "\
 "
 SRCREV_ha = "${AUTOREV}"
 
-PACKAGES += "homeassistant-configuration"
-
-FILES_homeassistant-configuration += "\
+FILES_${PN} += "\
     ${HOMEASSISTANT_CONFIG_DIR} \
 "
 
