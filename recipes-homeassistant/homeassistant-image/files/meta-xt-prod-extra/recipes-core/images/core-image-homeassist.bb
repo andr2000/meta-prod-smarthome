@@ -7,7 +7,7 @@ IMAGE_FSTYPES = "tar.bz2 wic wic.bmap"
 
 HOMEASSISTANT_SUPPORT = " \
     python3-homeassistant \
-    python3-appdaemon \
+    app-container-appdaemon \
 "
 
 IMAGE_INSTALL += " \
