@@ -41,6 +41,8 @@ XT_QUIRK_BB_ADD_LAYER += "\
     meta-xt-rpi-common \
     meta-xt-prod-extra \
     meta-homeassistant \
+    meta-openembedded/meta-filesystems \
+    meta-virtualization \
 "
 
 XT_BB_LAYERS_FILE = "meta-xt-rpi-common/inc/bblayers.conf.rpi-common"

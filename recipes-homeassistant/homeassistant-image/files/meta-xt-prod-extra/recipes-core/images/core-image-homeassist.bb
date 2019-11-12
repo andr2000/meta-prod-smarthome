@@ -7,13 +7,19 @@ IMAGE_FSTYPES = "tar.bz2 wic wic.bmap"
 
 HOMEASSISTANT_SUPPORT = " \
     python3-homeassistant \
+"
+
+APPDAEMON_SUPPORT = " \
     app-container-appdaemon \
+    runc-opencontainers \
+    netns \
 "
 
 IMAGE_INSTALL += " \
     bash \
     systemd-machine-units \
     ${HOMEASSISTANT_SUPPORT} \
+    ${APPDAEMON_SUPPORT} \
 "
 
 PACKAGE_OVERLAY_ROOTFS_INSTALL += " \
