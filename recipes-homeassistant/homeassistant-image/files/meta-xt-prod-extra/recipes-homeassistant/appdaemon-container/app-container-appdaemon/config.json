@@ -1,13 +1,15 @@
 {
 	"ociVersion": "1.0.1-dev",
 	"process": {
-		"terminal": true,
+		"terminal": false,
 		"user": {
 			"uid": 0,
 			"gid": 0
 		},
 		"args": [
-			"/usr/bin/appdaemon"
+			"/usr/bin/appdaemon",
+			"-c",
+			"/var/lib/appdaemon"
 		],
 		"env": [
 			"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
@@ -173,6 +175,13 @@
 			"/proc/irq",
 			"/proc/sys",
 			"/proc/sysrq-trigger"
+		]
+	},
+	"hooks": {
+		"prestart": [
+			{
+				"path": "/usr/sbin/netns"
+			}
 		]
 	}
 }
