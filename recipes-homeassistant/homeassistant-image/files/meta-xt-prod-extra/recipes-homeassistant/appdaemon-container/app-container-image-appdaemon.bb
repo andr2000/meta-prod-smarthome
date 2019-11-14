@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
 require app-container-image.bb
 
 IMAGE_INSTALL += " \
+    bash \
     coreutils \
     python3-appdaemon \
 "
