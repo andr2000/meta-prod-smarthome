@@ -59,6 +59,14 @@
 	"hostname": "runc",
 	"mounts": [
 		{
+			"destination": "/var/lib/appdaemon",
+			"type": "bind",
+			"source": "/var/lib/appdaemon",
+			"options": [
+				"bind",
+				"rw"
+			]
+		},		{
 			"destination": "/proc",
 			"type": "proc",
 			"source": "proc"
