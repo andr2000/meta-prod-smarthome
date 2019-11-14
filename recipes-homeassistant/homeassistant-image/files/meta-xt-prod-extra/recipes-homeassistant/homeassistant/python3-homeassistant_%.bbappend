@@ -7,7 +7,7 @@ PYPI_SRC_URI = "\
 SRCREV_ha = "${AUTOREV}"
 
 FILES_${PN} += "\
-    ${HOMEASSISTANT_CONFIG_DIR} \
+    ${HOMEASSISTANT_CONFIG_DIR}/appconfig \
 "
 
 # Force updating external configuration files
@@ -17,7 +17,7 @@ do_install_append() {
     install -d ${D}${HOMEASSISTANT_CONFIG_DIR}
     if [ ! -z "${HOMEASSISTANT_APP_SECRETS_DIR}" ]; then
         echo "Using Home Assistant secrets from ${HOMEASSISTANT_APP_SECRETS_DIR}..."
-        cp -rf ${HOMEASSISTANT_APP_SECRETS_DIR}/. ${D}/${HOMEASSISTANT_CONFIG_DIR}/
+        cp -rf ${HOMEASSISTANT_APP_SECRETS_DIR}/appconfig/. ${D}/${HOMEASSISTANT_CONFIG_DIR}/
     fi
     # remove git leftovers if any
     rm -rf ${D}/${HOMEASSISTANT_CONFIG_DIR}/.git* || true
