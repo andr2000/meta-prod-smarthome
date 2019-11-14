@@ -4,23 +4,23 @@
 SUMMARY = "A minimal container image"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-IMAGE_FSTYPES = "container"
 
 inherit image
 
+IMAGE_FSTYPES = "tar.bz2"
+
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS = ""
 
-IMAGE_TYPEDEP_container += "ext4"
 IMAGE_FEATURES = ""
 IMAGE_LINGUAS = ""
 NO_RECOMMENDATIONS = "1"
+FORCE_RO_REMOVE = "1"
 
 PREFERRED_PROVIDER_virtual/kernel = "linux-dummy"
 
-TCLIBC = "musl"
+TCLIBC = "glibc"
 
 DISTRO_FEATURES = "acl ipv4 ipv6 largefile xattr ${DISTRO_FEATURES_LIBC}"
-DISTRO_FEATURES = ""
 
 VIRTUAL-RUNTIME_dev_manager ?= ""
 VIRTUAL-RUNTIME_login_manager ?= ""
@@ -28,11 +28,8 @@ VIRTUAL-RUNTIME_init_manager ?= ""
 VIRTUAL-RUNTIME_initscripts ?= ""
 VIRTUAL-RUNTIME_keymaps ?= ""
 
-FORCE_RO_REMOVE = "1"
-
 IMAGE_INSTALL = "\
     base-files \
-    base-passwd \
     netbase \
 "
 
