@@ -1,0 +1,19 @@
+[Unit]
+Description=Appdaemon service
+After=homeassistant.service
+Requires=homeassistant.service
+
+[Service]
+Type=forking
+Restart=always
+RestartSec=10
+RuntimeDirectory=appdaemon
+RuntimeDirectoryMode=755
+ExecStartPre=-/usr/bin/runc delete -f appdaemon
+ExecStart=/usr/bin/runc run -d --pid-file ${RUNTIME_DIRECTORY}/appdaemon.pid -b /var/lib/machines/appdaemon appdaemon
+ExecStop=/usr/bin/runc kill appdaemon SIGKILL
+ExecStopPost=/usr/bin/runc delete -f appdaemon
+PIDFile=/run/appdaemon/appdaemon.pid
+
+[Install]
+WantedBy=multi-user.target
