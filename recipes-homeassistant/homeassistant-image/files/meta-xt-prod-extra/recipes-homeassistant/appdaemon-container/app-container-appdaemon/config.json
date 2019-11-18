@@ -66,7 +66,17 @@
 				"bind",
 				"rw"
 			]
-		},		{
+		},
+		{
+			"destination": "/etc/localtime",
+			"type": "bind",
+			"source": "/etc/localtime",
+			"options": [
+				"bind",
+				"ro"
+			]
+		},
+		{
 			"destination": "/proc",
 			"type": "proc",
 			"source": "proc"
