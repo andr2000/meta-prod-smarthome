@@ -10,5 +10,6 @@ require app-container-image.bb
 IMAGE_INSTALL += " \
     bash \
     coreutils \
+    tzdata \
     python3-appdaemon \
 "
