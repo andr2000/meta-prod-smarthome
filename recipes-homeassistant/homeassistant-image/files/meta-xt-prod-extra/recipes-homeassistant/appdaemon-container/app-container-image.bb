@@ -28,8 +28,6 @@ VIRTUAL-RUNTIME_init_manager ?= ""
 VIRTUAL-RUNTIME_initscripts ?= ""
 VIRTUAL-RUNTIME_keymaps ?= ""
 
-DEFAULT_TIMEZONE = "EET"
-
 IMAGE_INSTALL = "\
     base-files \
     netbase \
