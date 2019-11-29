@@ -53,6 +53,16 @@ add_to_local_conf() {
     # Get location of the secrets if any: everything from this dir will
     # be installed into ${SMARTHOME_RPI_MNT_SECRET}
     base_update_conf_value ${local_conf} SMARTHOME_SECRETS_DIR "${VAILLANT_SECRETS_DIR}"
+
+    # XXX: For RPi3 enable serial console: this will break ttyebusd though
+    if echo "${MACHINEOVERRIDES}" | grep -qiv "raspberrypi3"; then
+        base_set_conf_value ${local_conf} ENABLE_RPI3_SERIAL_CONSOLE "1"
+        base_set_conf_value ${local_conf} SERIAL_CONSOLE "115200 ttyAMA0"
+        base_set_conf_value ${local_conf} SERIAL_CONSOLES "115200;ttyAMA0"
+    else
+        base_set_conf_value ${local_conf} SERIAL_CONSOLE ""
+        base_set_conf_value ${local_conf} SERIAL_CONSOLES ""
+    fi
 }
 
 python do_configure_append() {
