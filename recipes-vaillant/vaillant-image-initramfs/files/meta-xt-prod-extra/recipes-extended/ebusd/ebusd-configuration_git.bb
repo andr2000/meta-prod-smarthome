@@ -10,19 +10,13 @@ S = "${WORKDIR}/git"
 
 SRCREV = "${AUTOREV}"
 
-SRC_URI = "git://github.com/andr2000/ebusd-configuration.git;protocol=https;branch=master"
+SRC_URI = "git://github.com/john30/ebusd-configuration.git;protocol=https;branch=master"
 
 FILES_${PN} += "\
-    ${SMARTHOME_RPI_MNT_SECRET}${sysconfdir}/* \
     ${sysconfdir}/* \
 "
 
 do_install_append() {
-    # Have a backup copy in the initramfs...
     install -d ${D}${sysconfdir}/ebusd
-    cp -r ${S}/ebusd-2.1.x/* ${D}${sysconfdir}/ebusd/
-
-    # ...and also a working copy in /mnt/secret
-    install -d ${D}${SMARTHOME_RPI_MNT_SECRET}/${sysconfdir}/ebusd
-    cp -r ${S}/ebusd-2.1.x/* ${D}${SMARTHOME_RPI_MNT_SECRET}/${sysconfdir}/ebusd/
+    cp -r ${S}/latest/* ${D}${sysconfdir}/ebusd/
 }

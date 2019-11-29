@@ -10,7 +10,6 @@ DEV_EXTRAS += " \
 
 VAILLANT_SUPPORT = " \
     ebusd \
-    ebusd-configuration \
     mosquitto \
     sqlite3 \
     ufh-controller \
