@@ -1,6 +1,9 @@
 require ${TOPDIR}/../meta-xt-rpi-common/inc/local.conf.rpi-common.inc
 
-VIRTUAL-RUNTIME_init_manager = "sysvinit"
+DISTRO_FEATURES_append = " systemd"
+VIRTUAL-RUNTIME_init_manager = "systemd"
+DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
+VIRTUAL-RUNTIME_initscripts = ""
 
 SERIAL_CONSOLE = ""
 SERIAL_CONSOLES = ""
