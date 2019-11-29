@@ -3,11 +3,11 @@ LICENSE = "GPLv2"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
-inherit pypi setuptools3 update-rc.d
+inherit pypi setuptools3 update-rc.d systemd
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-# Install at this specific location.
+# Install at this specific location, so we can overlayfs /usr
 PYTHON_SITEPACKAGES_DIR = "/usr/local/bin/ufh-controller"
 
 S = "${WORKDIR}/git"
@@ -38,6 +38,9 @@ SRC_URI = " \
 INITSCRIPT_NAME = "ufh-controller"
 INITSCRIPT_PARAMS = "defaults 99"
 
+SYSTEMD_AUTO_ENABLE = "enable"
+SYSTEMD_SERVICE_${PN} = "ufh-controller.service"
+
 FILES_${PN} += " \
     ${SMARTHOME_RPI_MNT_SECRET}${sysconfdir}/* \
     ${PYTHON_SITEPACKAGES_DIR}/* \
@@ -47,6 +50,10 @@ do_install_append() {
     install -d ${D}${sysconfdir}/default
     install -m 0744 ${S}/../ufh-controller ${D}${sysconfdir}/default/ufh-controller
     sed -i "s#SMARTHOME_RPI_MNT_SECRET#${SMARTHOME_RPI_MNT_SECRET}#g" ${D}${sysconfdir}/default/ufh-controller
+
+    # Install systemd unit files and set correct config directory
+    install -d ${D}${systemd_unitdir}/system
+    install -m 0644 ${S}/etc/systemd/ufh-controller.service ${D}${systemd_unitdir}/system
 
     install -d ${D}${sysconfdir}/ufh-controller
     local CONF_FILE=${D}${sysconfdir}/ufh-controller/ufh-controller.conf
