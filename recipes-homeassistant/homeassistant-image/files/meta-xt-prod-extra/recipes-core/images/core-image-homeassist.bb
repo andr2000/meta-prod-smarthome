@@ -17,7 +17,6 @@ APPDAEMON_SUPPORT = " \
 
 IMAGE_INSTALL += " \
     bash \
-    systemd-machine-units \
     ${HOMEASSISTANT_SUPPORT} \
     ${APPDAEMON_SUPPORT} \
 "

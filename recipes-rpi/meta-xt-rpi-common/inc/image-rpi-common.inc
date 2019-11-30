@@ -18,6 +18,7 @@ CORE_OS = " \
     kernel-modules \
     openssh openssh-keygen openssh-sftp-server \
     packagegroup-core-boot \
+    systemd-machine-units \
     tzdata \
     cronie \
     logrotate \
