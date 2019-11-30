@@ -6,7 +6,7 @@ SRC_URI += "\
     file://defconfig \
 "
 
-CMDLINE_raspberrypi0-wifi = "dwc_otg.lpm_enable=0"
+CMDLINE = "dwc_otg.lpm_enable=0"
 
 # FIXME: for some reason this module doesn't work when built in
 KERNEL_MODULE_AUTOLOAD += "ttyebusm"
