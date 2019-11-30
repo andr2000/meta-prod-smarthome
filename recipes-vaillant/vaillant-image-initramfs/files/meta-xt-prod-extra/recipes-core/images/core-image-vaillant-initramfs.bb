@@ -31,6 +31,14 @@ make_initrd_symlink() {
 
 IMAGE_POSTPROCESS_COMMAND += " make_initrd_symlink; "
 
+# We need initrd file, so wait until after cpio is done
+do_image_wic[depends] += "${PN}:do_image_cpio"
+
+# Install cpio.gz image as initrd
+IMAGE_BOOT_FILES += " \
+   ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio.gz;initrd \
+"
+
 WKS_FILE = "sdimage-vaillant.wks"
 
 # Do not update /etc/fstab
