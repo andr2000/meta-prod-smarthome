@@ -4,10 +4,6 @@ require ${TOPDIR}/../meta-xt-rpi-common/inc/image-rpi-common.inc
 
 IMAGE_FSTYPES = "${INITRAMFS_FSTYPES} wic wic.bmap"
 
-DEV_EXTRAS += " \
-    experimental \
-"
-
 VAILLANT_SUPPORT = " \
     ebusd \
     mosquitto \
