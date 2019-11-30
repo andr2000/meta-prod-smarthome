@@ -40,6 +40,9 @@ generate_key() {
     sync "$DIR"
 }
 
+# Force updating external files
+do_install[nostamp] = "1"
+
 do_install() {
     install -d ${D}/${SMARTHOME_RPI_MNT_SECRET}
     if [ -z "${SMARTHOME_SECRETS_DIR}" ]; then
