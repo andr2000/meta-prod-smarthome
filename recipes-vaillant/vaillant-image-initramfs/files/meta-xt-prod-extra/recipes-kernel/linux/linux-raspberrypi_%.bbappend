@@ -8,5 +8,8 @@ SRC_URI += "\
 
 CMDLINE = "dwc_otg.lpm_enable=0"
 
+# RPi3 has no connection to e-bus, so enable console for it
+CMDLINE_append_raspberrypi3 = " console=serial0,115200"
+
 # FIXME: for some reason this module doesn't work when built in
 KERNEL_MODULE_AUTOLOAD += "ttyebusm"
