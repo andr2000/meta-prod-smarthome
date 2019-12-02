@@ -9,6 +9,7 @@ VAILLANT_SUPPORT = " \
     mosquitto \
     sqlite3 \
     ufh-controller \
+    wpantund \
 "
 
 # These packages are removed from the initramfs and installed
