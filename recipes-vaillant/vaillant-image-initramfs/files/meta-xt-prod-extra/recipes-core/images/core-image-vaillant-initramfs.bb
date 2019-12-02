@@ -2,6 +2,8 @@ SUMMARY = "Valliant controlling domain"
 
 require ${TOPDIR}/../meta-xt-rpi-common/inc/image-rpi-common.inc
 
+INITRAMFS_FSTYPES = "cpio.xz"
+
 IMAGE_FSTYPES = "${INITRAMFS_FSTYPES} wic wic.bmap"
 
 VAILLANT_SUPPORT = " \
@@ -37,7 +39,7 @@ do_image_wic[depends] += "${PN}:do_image_cpio"
 
 # Install cpio.gz image as initrd
 IMAGE_BOOT_FILES += " \
-   ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio.gz;initrd \
+   ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio.xz;initrd \
 "
 
 WKS_FILE = "sdimage-vaillant.wks"
