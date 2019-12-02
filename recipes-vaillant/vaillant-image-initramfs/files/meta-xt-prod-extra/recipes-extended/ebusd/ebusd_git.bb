@@ -45,6 +45,7 @@ do_install_append() {
 
     install -d ${D}${sysconfdir}/default
     install -m 0744 ${S}/../ebusd ${D}${sysconfdir}/default/ebusd
+    sed -i "s#SMARTHOME_RPI_MNT_SECRET#${SMARTHOME_RPI_MNT_SECRET}#g" ${D}${sysconfdir}/default/ebusd
 
     install -d ${D}${sysconfdir}/logrotate.d
     install -m 0644 ${S}/contrib/etc/logrotate.d/ebusd ${D}${sysconfdir}/logrotate.d/
