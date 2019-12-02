@@ -15,4 +15,22 @@ SRCREV = "85d5e61b0138b362d02e244e122c8f5aaddafe09"
 
 S = "${WORKDIR}/git/"
 
-inherit autotools pkgconfig
+inherit autotools pkgconfig systemd
+
+SRC_URI += "\
+    file://wpantund.service \
+    file://wpantund \
+"
+
+SYSTEMD_AUTO_ENABLE = "enable"
+SYSTEMD_SERVICE_${PN} = "wpantund.service"
+
+do_install_append() {
+    install -d ${D}${sysconfdir}/default
+    install -m 0744 ${WORKDIR}/wpantund ${D}${sysconfdir}/default/wpantund
+    sed -i "s#SMARTHOME_RPI_MNT_SECRET#${SMARTHOME_RPI_MNT_SECRET}#g" ${D}${sysconfdir}/default/wpantund
+
+    # Install systemd unit files
+    install -d ${D}${systemd_unitdir}/system
+    install -m 0644 ${WORKDIR}/wpantund.service ${D}${systemd_unitdir}/system
+}

@@ -1,0 +1,10 @@
+# /etc/default/wpantund:
+# config file for wpantund service.
+
+if test -f SMARTHOME_RPI_MNT_SECRET/etc/default/wpantund; then
+	. SMARTHOME_RPI_MNT_SECRET/etc/default/wpantund
+	return
+fi
+
+# Options to pass to wpantund:
+WPANTUND_OPTS="-c /etc/wpantund.conf"
