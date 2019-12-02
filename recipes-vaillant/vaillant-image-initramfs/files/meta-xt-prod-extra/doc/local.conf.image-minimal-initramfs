@@ -5,6 +5,9 @@ VIRTUAL-RUNTIME_init_manager = "systemd"
 DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
 VIRTUAL-RUNTIME_initscripts = ""
 
+# Remove udev's hwdb from initramfs which is ~9M unpacked
+BAD_RECOMMENDATIONS_append = " udev-hwdb"
+
 # N.B. Keep empty line below so when we add to this file we append
 # after the last line here and not try to append it
 
