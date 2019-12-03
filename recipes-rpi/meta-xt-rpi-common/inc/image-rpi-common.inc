@@ -11,6 +11,8 @@ IMAGE_INSTALL = "packagegroup-core-boot ${CORE_IMAGE_EXTRA_INSTALL}"
 
 IMAGE_FEATURES += "read-only-rootfs"
 
+IMAGE_FSTYPES += " wic wic.bmap"
+
 IMAGE_LINGUAS = ""
 
 BAD_RECOMMENDATIONS += "busybox-syslog"
@@ -68,11 +70,7 @@ IMAGE_INSTALL += " \
     ${DEV_EXTRAS} \
     ${EXTRA_TOOLS_INSTALL} \
     ${WIFI_SUPPORT} \
-    ${PACKAGE_OVERLAY_ROOTFS_INSTALL} \
 "
-
-# Exclude from initramfs contents of the rootfs-overlay
-PACKAGE_EXCLUDE += "${PACKAGE_OVERLAY_ROOTFS_INSTALL}"
 
 create_mnt_points() {
     mkdir -p ${IMAGE_ROOTFS}${SMARTHOME_RPI_MNT_PERSIST}

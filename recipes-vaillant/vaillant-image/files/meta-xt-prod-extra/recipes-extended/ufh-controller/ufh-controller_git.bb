@@ -7,9 +7,6 @@ inherit pypi setuptools3 update-rc.d systemd
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-# Install at this specific location, so we can overlayfs /usr
-PYTHON_SITEPACKAGES_DIR = "/usr/local/bin/ufh-controller"
-
 S = "${WORKDIR}/git"
 
 RDEPENDS_${PN} = "\

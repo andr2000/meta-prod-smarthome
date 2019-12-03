@@ -43,8 +43,12 @@ generate_key() {
 # Force updating external files
 do_install[nostamp] = "1"
 
+FILES_${PN} += "\
+    /home/root/.ssh/* \
+"
+
 do_install() {
-    install -d ${D}/${sysconfdir}
+    install -d ${D}/${sysconfdir}/ssh
     if [ -z "${SMARTHOME_SECRETS_DIR}" ]; then
         local dst=${D}/${sysconfdir}/ssh
 
@@ -64,8 +68,8 @@ do_install() {
         generate_key "$dst/ssh_host_ed25519_key" ed25519
     else
         echo "Using secrets from ${SMARTHOME_SECRETS_DIR}..."
-        cp -rfL ${SMARTHOME_SECRETS_DIR}/*_key ${D}/${sysconfdir}/
+        cp -rfL ${SMARTHOME_SECRETS_DIR}/ssh/*_key ${D}/${sysconfdir}/ssh/
         install -d ${D}/home/root/.ssh
-        cp -rfL ${SMARTHOME_SECRETS_DIR}/root/* ${D}/home/root/.ssh/
+        cp -rfL ${SMARTHOME_SECRETS_DIR}/ssh/root/* ${D}/home/root/.ssh/
     fi
 }
