@@ -41,7 +41,7 @@ XT_QUIRK_BB_ADD_LAYER += "\
 XT_BB_LAYERS_FILE = "meta-xt-rpi-common/inc/bblayers.conf.rpi-common"
 XT_BB_LOCAL_CONF_FILE = "meta-xt-prod-extra/doc/local.conf.image-minimal-initramfs"
 
-XT_BB_IMAGE_TARGET = "core-image-vaillant-initramfs"
+XT_BB_IMAGE_TARGET = "core-image-vaillant"
 
 XT_RPI_MACHINE ?= "raspberrypi0-wifi"
 
