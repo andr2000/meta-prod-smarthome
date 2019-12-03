@@ -8,10 +8,17 @@ VIRTUAL-RUNTIME_initscripts = ""
 # Remove udev's hwdb from initramfs which is ~9M unpacked
 BAD_RECOMMENDATIONS_append = " udev-hwdb"
 
-# N.B. Keep empty line below so when we add to this file we append
-# after the last line here and not try to append it
-
 # Choices are Image or zImage if NOT using u-boot (no u-boot is the default)
 # Choices are uImage or zImage if using u-boot, though if you choose zImage
 # with u-boot you will also have to change the boot script boot command
 KERNEL_IMAGETYPE = "zImage"
+
+
+# XXX: For RPi3 enable serial console: this will break ttyebusd though
+ENABLE_RPI3_SERIAL_CONSOLE = "1"
+SERIAL_CONSOLE = "115200 ttyAMA0"
+SERIAL_CONSOLES = "115200;ttyAMA0"
+
+SERIAL_CONSOLE_raspberry0-wifi = ""
+SERIAL_CONSOLES_raspberry0-wifi = ""
+

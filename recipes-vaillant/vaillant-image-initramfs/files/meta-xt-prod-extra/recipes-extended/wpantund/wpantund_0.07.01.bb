@@ -28,7 +28,7 @@ SYSTEMD_SERVICE_${PN} = "wpantund.service"
 do_install_append() {
     install -d ${D}${sysconfdir}/default
     install -m 0744 ${WORKDIR}/wpantund ${D}${sysconfdir}/default/wpantund
-    sed -i "s#SMARTHOME_RPI_MNT_SECRET#${SMARTHOME_RPI_MNT_SECRET}#g" ${D}${sysconfdir}/default/wpantund
+    sed -i "s#SMARTHOME_RPI_MNT_PERSIST#${SMARTHOME_RPI_MNT_PERSIST}#g" ${D}${sysconfdir}/default/wpantund
 
     # Install systemd unit files
     install -d ${D}${systemd_unitdir}/system

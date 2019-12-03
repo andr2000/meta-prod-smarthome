@@ -4,17 +4,19 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
 
 inherit deploy
 inherit core-image
-inherit overlay_rootfs
 
 DEPENDS += "bcm2835-bootfiles"
 
 IMAGE_INSTALL = "packagegroup-core-boot ${CORE_IMAGE_EXTRA_INSTALL}"
+
+IMAGE_FEATURES += "read-only-rootfs"
 
 IMAGE_LINGUAS = ""
 
 BAD_RECOMMENDATIONS += "busybox-syslog"
 
 CORE_OS = " \
+    volatile-binds \
     kernel-modules \
     openssh openssh-keygen openssh-sftp-server \
     packagegroup-core-boot \
@@ -44,6 +46,7 @@ EXTRA_TOOLS_INSTALL = " \
     dosfstools \
     ethtool \
     findutils \
+    git \
     i2c-tools \
     iproute2 \
     iptables \
@@ -52,17 +55,12 @@ EXTRA_TOOLS_INSTALL = " \
     procps \
     rndaddtoentcnt \
     rng-tools \
+    strace \
     sysfsutils \
     unzip \
     util-linux \
     wget \
     zip \
-"
-# These packages are removed from the rootfs and installed
-# into the overlay
-PACKAGE_OVERLAY_ROOTFS_INSTALL += " \
-    git \
-    strace \
 "
 
 IMAGE_INSTALL += " \
@@ -76,21 +74,8 @@ IMAGE_INSTALL += " \
 # Exclude from initramfs contents of the rootfs-overlay
 PACKAGE_EXCLUDE += "${PACKAGE_OVERLAY_ROOTFS_INSTALL}"
 
-disable_bootlogd() {
-    echo BOOTLOGD_ENABLE=no > ${IMAGE_ROOTFS}/etc/default/bootlogd
-}
-
-ROOTFS_POSTPROCESS_COMMAND += " \
-    disable_bootlogd ; \
- "
-
 create_mnt_points() {
-    mkdir -p ${IMAGE_ROOTFS}${SMARTHOME_RPI_MNT_OVERLAY}
-    mkdir -p ${IMAGE_ROOTFS}${SMARTHOME_RPI_MNT_SECRET}
-    mkdir -p ${IMAGE_ROOTFS}${SMARTHOME_RPI_MNT_DATA}
+    mkdir -p ${IMAGE_ROOTFS}${SMARTHOME_RPI_MNT_PERSIST}
 }
 
 IMAGE_PREPROCESS_COMMAND += " create_mnt_points; "
-
-# Force do rootfs as we might have moved /mnt/{data|secret} already
-do_rootfs[nostamp] = "1"

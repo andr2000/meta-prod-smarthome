@@ -56,9 +56,7 @@ INHERIT += "extrausers"
 EXTRA_USERS_PARAMS = "usermod -P ${SMARTHOME_ROOT_PWD} root; "
 
 # Mount points
-SMARTHOME_RPI_MNT_DATA ?= "/mnt/data"
-SMARTHOME_RPI_MNT_SECRET ?= "/mnt/secret"
-SMARTHOME_RPI_MNT_OVERLAY ?= "/mnt/overlay"
+SMARTHOME_RPI_MNT_PERSIST ?= "/persist"
 
 SMARTHOME_TELEMETRY_SSID ?= "tele_wrong_ssid"
 SMARTHOME_TELEMETRY_PWD ?= "tele_wrong_pwd"

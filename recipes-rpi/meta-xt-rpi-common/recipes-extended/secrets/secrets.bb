@@ -44,9 +44,9 @@ generate_key() {
 do_install[nostamp] = "1"
 
 do_install() {
-    install -d ${D}/${SMARTHOME_RPI_MNT_SECRET}
+    install -d ${D}/${sysconfdir}
     if [ -z "${SMARTHOME_SECRETS_DIR}" ]; then
-        local dst=${D}/${SMARTHOME_RPI_MNT_SECRET}/ssh
+        local dst=${D}/${sysconfdir}/ssh
 
         install -d "$dst"
         echo "No secrets provided, generating ssh keys into $dst..."
@@ -64,6 +64,8 @@ do_install() {
         generate_key "$dst/ssh_host_ed25519_key" ed25519
     else
         echo "Using secrets from ${SMARTHOME_SECRETS_DIR}..."
-        cp -rfL ${SMARTHOME_SECRETS_DIR}/* ${D}/${SMARTHOME_RPI_MNT_SECRET}/
+        cp -rfL ${SMARTHOME_SECRETS_DIR}/*_key ${D}/${sysconfdir}/
+        install -d ${D}/home/root/.ssh
+        cp -rfL ${SMARTHOME_SECRETS_DIR}/root/* ${D}/home/root/.ssh/
     fi
 }

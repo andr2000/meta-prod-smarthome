@@ -1,10 +1,4 @@
 # /etc/default/ufh-controller:
 # Config file for ufh-controller service.
 
-# Make it possible to override the configuration
-if test -f SMARTHOME_RPI_MNT_SECRET/etc/default/ufh-controller; then
-	. SMARTHOME_RPI_MNT_SECRET/etc/default/ufh-controller
-	return
-fi
-
 UFH_ARGS="--log-file=/var/log/ufh-controller.log --config /etc/ufh-controller/ufh-controller.conf"

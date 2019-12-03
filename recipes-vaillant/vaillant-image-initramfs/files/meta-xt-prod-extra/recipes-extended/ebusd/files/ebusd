@@ -1,11 +1,6 @@
 # /etc/default/ebusd:
 # config file for ebusd service.
 
-if test -f SMARTHOME_RPI_MNT_SECRET/etc/default/ebusd; then
-	. SMARTHOME_RPI_MNT_SECRET/etc/default/ebusd
-	return
-fi
-
 # Options to pass to ebusd (run "ebusd -?" for more info):
 EBUSD_OPTS="--scanconfig=08 --enabledefine --enablehex --updatecheck=off --accesslevel=* -d /dev/ttyebus --configpath=/etc/ebusd/en --mqtthost=127.0.0.1 --mqttport=1883 -l /var/log/ebusd.log"
 
