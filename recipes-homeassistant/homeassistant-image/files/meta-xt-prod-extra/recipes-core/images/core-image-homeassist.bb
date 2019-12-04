@@ -16,7 +16,7 @@ APPDAEMON_SUPPORT = " \
 "
 
 IMAGE_INSTALL += " \
-    bash \
+    andr2000-addons \
     ${HOMEASSISTANT_SUPPORT} \
     ${APPDAEMON_SUPPORT} \
 "
