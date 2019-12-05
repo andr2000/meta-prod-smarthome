@@ -9,7 +9,7 @@ DEPENDS += "bcm2835-bootfiles"
 
 IMAGE_INSTALL = "packagegroup-core-boot ${CORE_IMAGE_EXTRA_INSTALL}"
 
-IMAGE_FEATURES += "read-only-rootfs"
+IMAGE_INSTALL_append = " initscripts-readonly-rootfs-overlay"
 
 IMAGE_FSTYPES += " wic wic.bmap"
 

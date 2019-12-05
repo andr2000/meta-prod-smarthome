@@ -16,6 +16,7 @@ BBLAYERS ?= " \
   ${TOPDIR}/../meta-raspberrypi \
   ${TOPDIR}/../meta-security \
   ${TOPDIR}/../meta-rpi \
+  ${TOPDIR}/../meta-readonly-rootfs-overlay \
 "
 
 BBLAYERS_NON_REMOVABLE ?= " \
