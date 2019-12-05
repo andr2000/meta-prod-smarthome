@@ -20,6 +20,3 @@ IMAGE_INSTALL += " \
 "
 
 WKS_FILE = "sdimage-vaillant.wks"
-
-# Do not update /etc/fstab
-WIC_CREATE_EXTRA_ARGS_append = " --no-fstab-update"
