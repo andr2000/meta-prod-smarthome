@@ -6,7 +6,7 @@ SRC_URI += "\
     file://defconfig \
 "
 
-CMDLINE = "dwc_otg.lpm_enable=0 root=/dev/mmcblk0p2 ro rootwait"
+CMDLINE = "dwc_otg.lpm_enable=0"
 
 # RPi3 has no connection to e-bus, so enable console for it
 CMDLINE_append_raspberrypi3 = " console=serial0,115200"
