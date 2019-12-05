@@ -18,7 +18,6 @@ IMAGE_LINGUAS = ""
 BAD_RECOMMENDATIONS += "busybox-syslog"
 
 CORE_OS = " \
-    volatile-binds \
     kernel-modules \
     openssh openssh-keygen openssh-sftp-server \
     packagegroup-core-boot \
