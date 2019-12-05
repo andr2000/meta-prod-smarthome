@@ -44,18 +44,19 @@ FILES_${PN} += " \
 
 do_install_append() {
     install -d ${D}${sysconfdir}/default
-    install -m 0744 ${S}/../ufh-controller ${D}${sysconfdir}/default/ufh-controller
+    install -m 0744 ${WORKDIR}/ufh-controller ${D}${sysconfdir}/default/ufh-controller
 
     # Install systemd unit files and set correct config directory
     install -d ${D}${systemd_unitdir}/system
     install -m 0644 ${S}/etc/systemd/ufh-controller.service ${D}${systemd_unitdir}/system
+    sed -i "s#@INSTALL_PATH@#${PYTHON_SITEPACKAGES_DIR}/ufh-controller#g" ${D}${systemd_unitdir}/system/ufh-controller.service
 
     install -d ${D}${sysconfdir}/ufh-controller
     local CONF_FILE=${D}${sysconfdir}/ufh-controller/ufh-controller.conf
-    install -m 0744 ${S}/../ufh-controller.conf ${CONF_FILE}
+    install -m 0744 ${WORKDIR}/ufh-controller.conf ${CONF_FILE}
     sed -i "s#SMARTHOME_RPI_MNT_PERSIST#${SMARTHOME_RPI_MNT_PERSIST}#g" ${CONF_FILE}
 
-    chmod +x ${D}/${PYTHON_SITEPACKAGES_DIR}/ufh-controller.py
+    chmod +x ${D}/${PYTHON_SITEPACKAGES_DIR}/ufh-controller/ufh-controller.py
 
     # setup.py installs an empty folder which makes
     # bitbake complain of installed, but not shipped
