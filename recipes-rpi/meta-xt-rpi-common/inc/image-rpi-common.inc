@@ -11,7 +11,9 @@ IMAGE_INSTALL = "packagegroup-core-boot ${CORE_IMAGE_EXTRA_INSTALL}"
 
 IMAGE_INSTALL_append = " initscripts-readonly-rootfs-overlay"
 
-IMAGE_FSTYPES += " wic wic.bmap"
+IMAGE_FSTYPES = "tar.bz2 wic wic.bmap"
+
+WKS_FILE = "sdimage-smarthome.wks"
 
 IMAGE_LINGUAS = ""
 

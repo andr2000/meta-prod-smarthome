@@ -18,5 +18,3 @@ IMAGE_INSTALL += " \
     ${VAILLANT_SUPPORT} \
     ${VAILLANT_OPTIONAL} \
 "
-
-WKS_FILE = "sdimage-vaillant.wks"
