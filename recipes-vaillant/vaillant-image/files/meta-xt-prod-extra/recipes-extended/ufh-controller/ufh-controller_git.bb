@@ -55,6 +55,8 @@ do_install_append() {
     local CONF_FILE=${D}${sysconfdir}/ufh-controller/ufh-controller.conf
     install -m 0744 ${WORKDIR}/ufh-controller.conf ${CONF_FILE}
     sed -i "s#SMARTHOME_RPI_MNT_PERSIST#${SMARTHOME_RPI_MNT_PERSIST}#g" ${CONF_FILE}
+    sed -i "s#TELEGRAM_BOT_TOKEN#${TELEGRAM_BOT_TOKEN}#g" ${CONF_FILE}
+    sed -i "s#TELEGRAM_CHAT_ID#${TELEGRAM_CHAT_ID}#g" ${CONF_FILE}
 
     chmod +x ${D}/${PYTHON_SITEPACKAGES_DIR}/ufh-controller/ufh-controller.py
 
