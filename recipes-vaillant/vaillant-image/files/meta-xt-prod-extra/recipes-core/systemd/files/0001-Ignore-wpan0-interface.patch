@@ -1,0 +1,26 @@
+From 2fd8abbc57a4be65c2ff2b02d078fafd0918128e Mon Sep 17 00:00:00 2001
+From: Oleksandr Andrushchenko <andr2000@gmail.com>
+Date: Sat, 7 Dec 2019 20:03:19 +0200
+Subject: [PATCH] Ignore wpan0 interface
+
+Signed-off-by: Oleksandr Andrushchenko <andr2000@gmail.com>
+---
+ units/systemd-networkd-wait-online.service.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/units/systemd-networkd-wait-online.service.in b/units/systemd-networkd-wait-online.service.in
+index 7666e166697b..f9970153bf0b 100644
+--- a/units/systemd-networkd-wait-online.service.in
++++ b/units/systemd-networkd-wait-online.service.in
+@@ -18,7 +18,7 @@ Before=network-online.target shutdown.target
+ 
+ [Service]
+ Type=oneshot
+-ExecStart=@rootlibexecdir@/systemd-networkd-wait-online
++ExecStart=@rootlibexecdir@/systemd-networkd-wait-online --ignore=wpan0
+ RemainAfterExit=yes
+ 
+ [Install]
+-- 
+2.17.1
+
