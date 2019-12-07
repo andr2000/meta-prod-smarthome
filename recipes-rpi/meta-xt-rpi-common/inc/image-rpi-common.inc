@@ -22,6 +22,9 @@ IMAGE_LINGUAS = ""
 
 BAD_RECOMMENDATIONS += "busybox-syslog"
 
+# Disable VC4 Graphics
+MACHINE_FEATURES_remove = "vc4graphics"
+
 CORE_OS = " \
     kernel-modules \
     openssh openssh-keygen openssh-sftp-server \
