@@ -48,7 +48,7 @@ do_install() {
     oe_runmake 'DESTDIR=${D}' install
 
     install -d ${D}${systemd_unitdir}/system/
-    install -m 0644 ${S}/service/systemd/mosquitto.service.notify ${D}${systemd_unitdir}/system/mosquitto.service
+    install -m 0644 ${S}/service/systemd/mosquitto.service.simple ${D}${systemd_unitdir}/system/mosquitto.service
 
     install -d ${D}${sysconfdir}/mosquitto
     install -m 0644 ${D}${sysconfdir}/mosquitto/mosquitto.conf.example \
