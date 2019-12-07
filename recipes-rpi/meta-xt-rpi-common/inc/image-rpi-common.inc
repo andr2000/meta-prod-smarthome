@@ -15,6 +15,9 @@ IMAGE_FSTYPES = "tar.bz2 wic wic.bmap"
 
 WKS_FILE = "sdimage-smarthome.wks"
 
+# Do not update /etc/fstab
+WIC_CREATE_EXTRA_ARGS_append = " --no-fstab-update"
+
 IMAGE_LINGUAS = ""
 
 BAD_RECOMMENDATIONS += "busybox-syslog"
