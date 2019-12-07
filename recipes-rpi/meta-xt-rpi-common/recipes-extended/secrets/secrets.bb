@@ -71,5 +71,13 @@ do_install() {
         cp -rfL ${SMARTHOME_SECRETS_DIR}/ssh/*_key ${D}/${sysconfdir}/ssh/
         install -d ${D}/home/root/.ssh
         cp -rfL ${SMARTHOME_SECRETS_DIR}/ssh/root/* ${D}/home/root/.ssh/
+        # Change permissions, so we do not fail with
+        # "permissions are too open"
+        chmod -R 0600 ${D}/${sysconfdir}/ssh/*_key
+        chmod -R 0700 ${D}/home/root/.ssh
+        chmod -R 0600 ${D}/home/root/.ssh/*
+        # Ensure root ownership
+        chown -R root:root ${D}/home/root/
+        chown -R root:root ${D}/${sysconfdir}/ssh/
     fi
 }
