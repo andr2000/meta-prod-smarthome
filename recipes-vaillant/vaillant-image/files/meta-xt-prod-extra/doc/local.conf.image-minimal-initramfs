@@ -19,6 +19,6 @@ ENABLE_RPI3_SERIAL_CONSOLE = "1"
 SERIAL_CONSOLE = "115200 ttyAMA0"
 SERIAL_CONSOLES = "115200;ttyAMA0"
 
-SERIAL_CONSOLE_raspberry0-wifi = ""
-SERIAL_CONSOLES_raspberry0-wifi = ""
+SERIAL_CONSOLE_raspberrypi0-wifi = ""
+SERIAL_CONSOLES_raspberrypi0-wifi = ""
 
