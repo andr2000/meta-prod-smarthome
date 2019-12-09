@@ -17,6 +17,14 @@ do_install_append() {
 }
 
 pkg_postinst_ontarget_${PN} () {
+    # Check if the last partition is already at max size
+    # N.B. First 4MB start at 2048 and are always skipped by
+    # RPi and will be shown as free
+    needs_resize=`/usr/sbin/sfdisk --list-free /dev/${MNT_DEV} | tail -1 | grep -v 2048`
+    if [ -z ${needs_resize} ]; then
+        echo "Persistent partition is already at its max size, not resizing"
+        exit 1
+    fi
     echo "---------------- Resize persistent partition to 100% ----------------"
     pnum=`cat /etc/fstab | grep -o '.*${MNT_POINT}[0-9].*persist' | grep -o '[0-9]\+' | tail -1`
     if [ -z ${pnum} ]; then
