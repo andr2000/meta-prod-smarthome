@@ -10,6 +10,6 @@ SRC_URI[md5sum] = "a22d9fe953246d8cc2058b0628912155"
 SRC_URI[sha256sum] = "0f390693f46173d8ffb95669acbb0e2a3ec54ecce676703510ad47f1a6d9dc83"
 
 RDEPENDS_${PN} = "\
-    ${PYTHON_PN}-jinja2 (>=2.7) \
+    ${PYTHON_PN}-jinja2-appdaemon (>=2.7) \
     ${PYTHON_PN}-aiohttp-appdaemon (>=0.20) \
 "

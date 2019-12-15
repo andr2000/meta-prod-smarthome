@@ -27,7 +27,7 @@ RDEPENDS_${PN} = "\
     ${PYTHON_PN}-deepdiff \
     ${PYTHON_PN}-feedparser \
     ${PYTHON_PN}-iso8601 \
-    ${PYTHON_PN}-jinja2 \
+    ${PYTHON_PN}-jinja2-appdaemon \
     ${PYTHON_PN}-paho-mqtt \
     ${PYTHON_PN}-pid \
     ${PYTHON_PN}-profile \
