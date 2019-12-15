@@ -31,6 +31,7 @@ RDEPENDS_${PN} += " \
     ${PYTHON_PN}-restrictedpython \
     ${PYTHON_PN}-aioesphomeapi \
     ${PYTHON_PN}-psycopg2 \
+    ${PYTHON_PN}-influxdb \
 "
 
 # Because we resize data partition on the first boot we need
