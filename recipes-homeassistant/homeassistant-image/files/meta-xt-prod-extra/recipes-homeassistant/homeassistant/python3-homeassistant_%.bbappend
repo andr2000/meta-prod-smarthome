@@ -2,9 +2,8 @@
 S = "${WORKDIR}/git"
 LIC_FILES_CHKSUM = "file://${S}/LICENSE.md;md5=86d3f3a95c324c9479bd8986968f4327"
 PYPI_SRC_URI = "\
-    git://github.com/andr2000/home-assistant.git;branch=0.103.0;name=ha \
+    git://github.com/home-assistant/home-assistant.git;tag=0.103.3;name=ha \
 "
-SRCREV_ha = "${AUTOREV}"
 
 FILES_${PN} += "\
     ${HOMEASSISTANT_CONFIG_DIR}/appconfig \
