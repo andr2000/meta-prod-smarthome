@@ -20,6 +20,7 @@ inherit autotools pkgconfig systemd
 SRC_URI += "\
     file://wpantund.service \
     file://wpantund \
+    file://wpantund.conf \
 "
 
 SYSTEMD_AUTO_ENABLE = "enable"
