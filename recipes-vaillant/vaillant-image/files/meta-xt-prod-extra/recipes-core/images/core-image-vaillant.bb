@@ -8,6 +8,7 @@ VAILLANT_SUPPORT = " \
     sqlite3 \
     ufh-controller \
     wpantund \
+    watchdog \
 "
 
 VAILLANT_OPTIONAL += " \
