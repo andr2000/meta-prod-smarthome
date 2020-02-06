@@ -12,8 +12,21 @@ APPDAEMON_SUPPORT = " \
     netns \
 "
 
-IMAGE_INSTALL += " \
+VAILLANT_SUPPORT = " \
+    ebusd \
+    mosquitto \
+    sqlite3 \
+    ufh-controller \
+    wpantund \
+"
+
+VAILLANT_OPTIONAL += " \
     andr2000-addons \
+"
+
+IMAGE_INSTALL += " \
     ${HOMEASSISTANT_SUPPORT} \
     ${APPDAEMON_SUPPORT} \
+    ${VAILLANT_SUPPORT} \
+    ${VAILLANT_OPTIONAL} \
 "

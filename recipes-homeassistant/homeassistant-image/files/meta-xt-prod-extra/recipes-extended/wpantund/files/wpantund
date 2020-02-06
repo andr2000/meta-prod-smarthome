@@ -1,0 +1,5 @@
+# /etc/default/wpantund:
+# config file for wpantund service.
+
+# Options to pass to wpantund:
+WPANTUND_OPTS="-c /etc/wpantund.conf"

@@ -1,4 +1,4 @@
-SUMMARY = "Home assistant image for Raspberry Pi 3 B+"
+SUMMARY = "Home assistant image for Raspberry Pi 3 B+ with ebusd"
 
 LICENSE = "MIT"
 
